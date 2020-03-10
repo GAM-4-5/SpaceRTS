@@ -1,0 +1,12 @@
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/bin/Debug/netstandard2.0/Lidgren.Network.dll
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/bin/Debug/netstandard2.0/Lidgren.Network.pdb
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.csproj.CoreCompileInputs.cache
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.AssemblyInfoInputs.cache
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.AssemblyInfo.cs
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.csproj.CopyComplete
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.dll
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.pdb
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/bin/Debug/netstandard2.0/SpaceRts.deps.json
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/bin/Debug/netstandard2.0/SpaceRts.dll
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/bin/Debug/netstandard2.0/SpaceRts.pdb
+/home/patrik/Projects/SpaceRtsClient/SpaceRts/obj/Debug/netstandard2.0/SpaceRts.csprojAssemblyReference.cache

@@ -1,0 +1,5 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Models/Cube.fbx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Content/Models/Cube.xnb","ModelProcessor","ModelContent",26316,1732,0.142141
+"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/Distance.fx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Content/Shaders/Distance.xnb","RemoteEffectProcessor","CompiledEffectContent",843,1249,1.042588
+"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/EarthLike.fx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Content/Shaders/EarthLike.xnb","RemoteEffectProcessor","CompiledEffectContent",848,1249,0.500944
+"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Content/Shaders/FogOfWar.xnb","RemoteEffectProcessor","CompiledEffectContent",901,1654,0.644071
