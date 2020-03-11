@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "buildClient",
+			"command": "msbuild",
+			"type": "shell",
+			"args": [],
+			"options": { "cwd": "${workspaceRoot}/SpaceRtsClient" },
+			"group": "build"
+		},
+		{
+			"label": "buildServer",
+			"command": "msbuild",
+
+			"type": "shell",
+			"args": [],
+			"options": { "cwd": "${workspaceRoot}/SpaceRtsServer" },
+			"group": "build"
+		},
+		{
+			"label": "buildLib",
+			"command": "msbuild",
+
+			"type": "shell",
+			"args": [],
+			"options": { "cwd": "${workspaceRoot}/SpaceRts" },
+			"group": "build"
+		},
+		{
+			"label": "Build",
+			"dependsOn": ["buildLib", "buildServer", "buildClient"]
+		}
+	]
+}
