@@ -6,3 +6,6 @@ SpaceRtsServer/obj/
 
 SpaceRts/bin/
 SpaceRts/obj/
+
+.vs/SpaceRtsClient/xs
+SpaceRtsServer/bin/Debug/SpaceRts.dll

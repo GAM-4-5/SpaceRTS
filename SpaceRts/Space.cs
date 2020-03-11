@@ -84,8 +84,14 @@ namespace SpaceRts
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            FogOfWar.Draw(spriteBatch, graphics, camera);
+            //FogOfWar.Draw(spriteBatch, graphics, camera);
 
+            for (int i = 0; i < SolarSystems.Length; i++)
+            {
+                SolarSystems[i].Draw(spriteBatch, graphics, camera);
+            }
+
+            return;
             for (int i = 0; i < SolarSystems.Length; i++)
             {
                 if (SolarSystems[i] != null)

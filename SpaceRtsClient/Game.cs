@@ -118,8 +118,6 @@ namespace SpaceRtsClient
             Space.Draw(spriteBatch, graphics, Camera);
             spriteBatch.End();
 
-            DrawModel(Cube, Vector3.Zero);
-
             base.Draw(gameTime);
         }
 

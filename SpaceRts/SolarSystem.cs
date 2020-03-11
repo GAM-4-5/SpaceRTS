@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceRts
 {
@@ -12,6 +13,11 @@ namespace SpaceRts
         {
             Position = position;
             Connections = connections;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
+        {
+
         }
     }
 }
