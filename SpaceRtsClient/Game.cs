@@ -70,6 +70,8 @@ namespace SpaceRtsClient
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             FogOfWar.LoadContent(Content);
+            Planet.LoadContent(Content);
+            PlanetChunk.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -117,6 +119,8 @@ namespace SpaceRtsClient
             //spriteBatch.Begin();
             Space.Draw(spriteBatch, graphics, Camera);
             spriteBatch.End();
+
+            DrawModel(Cube, Vector3.Zero);
 
             base.Draw(gameTime);
         }

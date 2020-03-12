@@ -11,7 +11,7 @@ namespace SpaceRts
         // in the ProjectionMatrix property.
         GraphicsDevice graphicsDevice;
 
-        public Vector3 position = new Vector3(20,20,20);
+        public Vector3 position = new Vector3(5,5,30);
         // public Vector3 position = new Vector3(1111,  1151,  2500);  
         public Vector3 lookAtVector = new Vector3(0, 0, 0);
         /*(8, 8, 15);*/ //(700, 700, 0); //Vector3.Zero; //new Vector3(486.5f, 526.5f, 1); //.Zero;

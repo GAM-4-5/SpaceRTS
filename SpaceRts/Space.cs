@@ -26,7 +26,7 @@ namespace SpaceRts
 
             NumberOfPlayers = numberOfPlayers;
 
-            GenerateSolarSystems();
+            GenerateSolarSystems(graphics, GenerationSeed);
 
             temp = new Texture2D(graphics.GraphicsDevice, 1, 1);
 
@@ -37,7 +37,7 @@ namespace SpaceRts
             FogOfWar = new FogOfWar(GenerationSeed, 1000, 1000, graphics);
         }
 
-        private void GenerateSolarSystems()
+        private void GenerateSolarSystems(GraphicsDeviceManager graphics, int seed)
         {
             int n = ((int)GameOptions.NumberOfSolarSystems + 1) * NumberOfPlayers;
             SolarSystems = new SolarSystem[n];
@@ -52,7 +52,7 @@ namespace SpaceRts
             SolarSystem[] connections1 = new SolarSystem[systemsPerSystem];
             connectionsStack.Push(connections1);
 
-            SolarSystem solarSystem1 = new SolarSystem(new Vector2(0, 0), connections1);
+            SolarSystem solarSystem1 = new SolarSystem(Random.Next(), graphics, new Vector2(0, 0), connections1, Random.Next(1, 5));
             SolarSystems[cn] = solarSystem1;
             systemsStack.Push(solarSystem1);
 
@@ -69,7 +69,7 @@ namespace SpaceRts
                     Vector2 newPositon = Vector2.Transform(system.Position + new Vector2(0, Random.Next(100, 600)), Matrix.CreateRotationZ((float)(Random.NextDouble() * Math.PI)));
 
                     SolarSystem[] newConnections = new SolarSystem[systemsPerSystem];
-                    SolarSystem newSystem = new SolarSystem(newPositon, newConnections);
+                    SolarSystem newSystem = new SolarSystem(Random.Next(), graphics, newPositon, newConnections, Random.Next(1, 5));
                     connections[i] = newSystem;
                     SolarSystems[cn] = newSystem;
                     cn++;
@@ -85,7 +85,9 @@ namespace SpaceRts
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
             //FogOfWar.Draw(spriteBatch, graphics, camera);
-
+            SolarSystems[0].Draw(spriteBatch, graphics, camera);
+            return;
+            
             for (int i = 0; i < SolarSystems.Length; i++)
             {
                 SolarSystems[i].Draw(spriteBatch, graphics, camera);
@@ -96,7 +98,7 @@ namespace SpaceRts
             {
                 if (SolarSystems[i] != null)
                 {
-                    spriteBatch.Draw(temp, SolarSystems[i].Position, new Rectangle(0,0,1,1),i == 0 ? Color.Green : Color.Blue, 0f, Vector2.Zero, 10f, SpriteEffects.None, 1);
+                    spriteBatch.Draw(temp, SolarSystems[i].Position, new Rectangle(0, 0, 1, 1), i == 0 ? Color.Green : Color.Blue, 0f, Vector2.Zero, 10f, SpriteEffects.None, 1);
                     foreach (var SolarSystem in SolarSystems[i].Connections)
                     {
                         if (SolarSystem != null)
@@ -110,7 +112,7 @@ namespace SpaceRts
                                 Color.Green,
                                 angle,
                                 Vector2.Zero,
-                                new Vector2((SolarSystems[i].Position.Y - SolarSystem.Position.Y),1),// (SolarSystems[i].Position.Y - SolarSystem.Position.Y)),
+                                new Vector2((SolarSystems[i].Position.Y - SolarSystem.Position.Y), 1),// (SolarSystems[i].Position.Y - SolarSystem.Position.Y)),
                                 SpriteEffects.None,
                                 1f);
 

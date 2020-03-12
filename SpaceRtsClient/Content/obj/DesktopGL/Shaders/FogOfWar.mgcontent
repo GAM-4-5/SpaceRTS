@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx</SourceFile>
-  <SourceTime>2020-03-04T23:32:41.1795062+01:00</SourceTime>
+  <SourceTime>2020-03-12T14:18:01.8823974+01:00</SourceTime>
   <DestFile>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Shaders/FogOfWar.xnb</DestFile>
-  <DestTime>2020-03-04T23:32:43.7132339+01:00</DestTime>
+  <DestTime>2020-03-12T14:19:37.8263679+01:00</DestTime>
   <Importer>EffectImporter</Importer>
   <ImporterTime>2020-02-24T20:23:38.0351732+01:00</ImporterTime>
   <Processor>RemoteEffectProcessor</Processor>
