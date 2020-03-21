@@ -4,12 +4,14 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Models/Cube.fbx</File>
-    <File>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/Distance.fx</File>
-    <File>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/EarthLike.fx</File>
-    <File>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Fonts/MainFont.spritefont</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Models/Cube.fbx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/Distance.fx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/EarthLike.fx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/FogOfWar.fx</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx</SourceFile>
-  <SourceTime>2020-03-12T14:21:43.1870512+01:00</SourceTime>
-  <DestFile>/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Shaders/FogOfWar.xnb</DestFile>
-  <DestTime>2020-03-19T10:53:16.5816508+01:00</DestTime>
+  <SourceFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/FogOfWar.fx</SourceFile>
+  <SourceTime>2020-03-21T21:18:49.4281304+01:00</SourceTime>
+  <DestFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/bin/DesktopGL/Shaders/FogOfWar.xnb</DestFile>
+  <DestTime>2020-03-21T23:22:47.9704991+01:00</DestTime>
   <Importer>EffectImporter</Importer>
-  <ImporterTime>2020-02-24T20:23:38.0351732+01:00</ImporterTime>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
   <Processor>RemoteEffectProcessor</Processor>
-  <ProcessorTime>2019-07-14T21:23:39+02:00</ProcessorTime>
+  <ProcessorTime>2020-03-21T21:18:49.4010844+01:00</ProcessorTime>
   <Parameters>
     <Key>DebugMode</Key>
     <Value>Auto</Value>

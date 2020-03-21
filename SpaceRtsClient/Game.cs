@@ -23,6 +23,8 @@ namespace SpaceRtsClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         Space Space;
@@ -74,6 +76,8 @@ namespace SpaceRtsClient
             Planet.LoadContent(Content);
             //.LoadContent(Content);
             Chunk.LoadContent(Content);
+
+            Space.spriteFont = Content.Load<SpriteFont>("Fonts/MainFont");
             // TODO: use this.Content to load your game content here
         }
 

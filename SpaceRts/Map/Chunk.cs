@@ -24,7 +24,7 @@ namespace SpaceRts.Map
 
         int ChunkX, ChunkY, Width, Height;
 
-        public BoundingBox BoudningBox;
+        public BoundingBox BoundingBox;
 
         public VertexPositionColor[] Vertices;
 
@@ -34,7 +34,12 @@ namespace SpaceRts.Map
             Width = width;
             Height = height;
 
+            ChunkY = chunkY;
+
+
             Vertices = new VertexPositionColor[width * height * 6 * 3];
+
+            Vector3[] positions = new Vector3[width * height * 6 * 3];
 
             float pX = chunkX * width * innerRadius * 2;
             float pY = chunkY * height * outerRadius * 3 / 2;
@@ -47,26 +52,43 @@ namespace SpaceRts.Map
                 {
                     float tx = pX + (x + y * 0.5f - y / 2) * (innerRadius * 2f);
                     float ty = pY + y * (outerRadius * 1.5f);
-                    float value = noiseMap[chunkY * mapWidth * width + ChunkX * width + y * width + x];
+
+                    float value = noiseMap[(y + chunkY * height) * width * mapWidth + x + chunkX * width];
+
                     Vector3 pos = new Vector3(tx, ty, value * 100);
                     for (int i = 0; i < 6; i++)
                     {
-                        min = Math.Min(min, value);
-                        max = Math.Max(max, value);
-                        int c  = (int)(MathHelper.Clamp(value, 0.1f, 0.9f) * 255);
-                        Vertices[t] = new VertexPositionColor(pos + corners[i], new Color( c, 125, 125));
-                        Vertices[t + 1] = new VertexPositionColor(pos + corners[i + 1], new Color(c, 125, 125));
-                        Vertices[t + 2] = new VertexPositionColor(pos, new Color(c, 125, 125));
+                        positions[t] = pos + corners[i];
+                        positions[t + 1] = pos + corners[i + 1];
+                        positions[t + 2] = pos;
+                        t += 3;
 
-                        // Vertices[t] = new VertexPositionColor(pos + corners[i], color);
-                        // Vertices[t + 1] = new VertexPositionColor(pos + corners[i + 1], color);
-                        // Vertices[t + 2] = new VertexPositionColor(pos, color);
-                        if(c > 254) Console.WriteLine(c);
-                        if(c < 1) Console.WriteLine(c);
+                    }
+                }
+            }
+
+            t = 0;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    float value = noiseMap[(y + chunkY * height) * width * mapWidth + x + chunkX * width];
+                    int c = (int)(MathHelper.Clamp(value, 0.1f, 0.9f) * 255);
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Vertices[t] = new VertexPositionColor(positions[t], new Color(c, 125, 125));
+                        Vertices[t + 1] = new VertexPositionColor(positions[t + 1], new Color(c, 125, 125));
+                        Vertices[t + 2] = new VertexPositionColor(positions[t + 2], new Color(c, 125, 125));
+
                         t += 3;
                     }
                 }
             }
+
+            BoundingBox = BoundingBox.CreateFromPoints(positions);
+
+
         }
 
         public static void LoadContent(ContentManager content)
@@ -76,9 +98,10 @@ namespace SpaceRts.Map
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            //if(camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
-            //    return;
+            if(camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
+                return;
 
+            Space.ChunksDrawn++;
             graphics.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
             effect.Parameters["WorldViewProjection"].SetValue(camera.ViewMatrix * camera.ProjectionMatrix * Matrix.Identity);
@@ -88,7 +111,7 @@ namespace SpaceRts.Map
                 pass.Apply();
 
                 graphics.GraphicsDevice.DrawUserPrimitives(
-                    PrimitiveType.TriangleList,
+                    PrimitiveType.LineStrip,
                     Vertices,
                     0,
                     Width * Height * 6);

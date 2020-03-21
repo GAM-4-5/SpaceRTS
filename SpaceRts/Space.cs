@@ -8,6 +8,9 @@ namespace SpaceRts
 {
     public class Space
     {
+        public static int ChunksDrawn = 0;
+        public static SpriteFont spriteFont;
+
         public Random Random;
         public GameOptions GameOptions;
 
@@ -85,7 +88,15 @@ namespace SpaceRts
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
             //FogOfWar.Draw(spriteBatch, graphics, camera);
+            ChunksDrawn = 0;
+            
+
             SolarSystems[0].Draw(spriteBatch, graphics, camera);
+
+            //spriteBatch.DrawString(spriteFont, ChunksDrawn.ToString(), new Vector2(50, 50), Color.Black);
+
+            Console.WriteLine(ChunksDrawn);
+
             return;
             
             for (int i = 0; i < SolarSystems.Length; i++)

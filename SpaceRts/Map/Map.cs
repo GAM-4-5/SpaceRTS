@@ -14,7 +14,7 @@ namespace SpaceRts.Map
         Chunk[,] Chunks;
         int Width, Height;
 
-        public const int ChunkWidth = 6, ChunkHeight = 6;
+        public const int ChunkWidth = 16, ChunkHeight = 16;
         public Map(int id, int seed, int width, int height, float[] noiseMap, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
