@@ -22,7 +22,7 @@ namespace SpaceRts
 
             for (int i = 0; i < numbnerOfPlanets; i++)
             {
-                Planets[i] = new Planet(random.Next(), 6, 6, graphics, (PlanetTypes)random.Next(0, 5));
+                Planets[i] = new Planet(i, random.Next(), 6, 6, graphics, (PlanetTypes)random.Next(0, 5));
             }
         }
 

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SpaceRts.Map;
+
 namespace SpaceRts
 {
     public class Planet
@@ -14,31 +16,25 @@ namespace SpaceRts
         private const int CHUNK_HEIGHT = 16;
         private static Effect effect;
         private static int Width, Height;
-        private static VertexPositionColor[] Vertecies;
-
-        public static PlanetChunk[,] Chunks;
+        public int Id;
         public static Color[][] GradientColors = new Color[][] { new Color[6] { Color.Yellow, Color.Orange, Color.Red, Color.DarkRed, Color.Gray, Color.Black } };
         public static float[][] GradientValues = new float[][] { new float[6] { 0, 0.1f, 0.2f, 0.3f, 0.5f, 0.7f } };
 
         private Noise2d Noise;
-        public Planet(int seed, int width, int height, GraphicsDeviceManager graphics, PlanetTypes planetType)
+
+        private Map.Map Map;
+        public Planet(int id, int seed, int width, int height, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Noise = new Noise2d(seed);
-
-            Width = width;
-            Height = height;
-            Chunks = new PlanetChunk[height, width];
-            PlanetType = planetType;
-
             var NoiseMap = Noise.GenerateNoiseMap(width * CHUNK_WIDTH, height * CHUNK_HEIGHT, 5f, 1f);
 
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    Chunks[y, x] = new PlanetChunk(NoiseMap, x, y, CHUNK_WIDTH, CHUNK_HEIGHT);
-                }
-            }
+            Id = id;
+            Width = width;
+            Height = height;
+            PlanetType = planetType;
+
+            Map = new Map.Map(id, seed, width, height, NoiseMap, graphics, planetType);
+
 
             //using (var reader = new BinaryReader(File.Open("Content/Shaders/FogOfWar.xnb", FileMode.Open)))
             //{
@@ -71,14 +67,8 @@ namespace SpaceRts
             // effect.View = camera.ViewMatrix;
             // effect.Projection = camera.ProjectionMatrix;
             // effect.VertexColorEnabled = true;
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    Chunks[y,x].Draw(spriteBatch, graphics, camera);
-                }
-            }
 
+            Map.Draw(spriteBatch, graphics, camera);
         }
     }
 }

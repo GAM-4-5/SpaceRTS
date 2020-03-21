@@ -1,2 +1,2 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Shaders/FogOfWar.xnb","RemoteEffectProcessor","CompiledEffectContent",919,851,0,443001
+"/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/Shaders/FogOfWar.fx","/home/patrik/Projects/SpaceRtsClient/SpaceRtsClient/Content/bin/DesktopGL/Shaders/FogOfWar.xnb","RemoteEffectProcessor","CompiledEffectContent",945,1249,1,53448

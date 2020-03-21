@@ -43,8 +43,8 @@ namespace SpaceRts
             SolarSystems = new SolarSystem[n];
             Stack systemsStack = new Stack();
             Stack connectionsStack = new Stack();
-            int r, k, l, cn = 0, cd = 0;
-            int angle = 0;
+            int cn = 0, cd = 0;
+            
 
             int systemsPerSystemMax = 4;
             int systemsPerSystem = Math.Max(systemsPerSystemMax - cd, 1);

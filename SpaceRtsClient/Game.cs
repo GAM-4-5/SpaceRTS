@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using SpaceRts;
+using SpaceRts.Map;
 using SpaceRts.Util;
 using SpaceRtsClient.Util;
 
@@ -71,8 +72,8 @@ namespace SpaceRtsClient
 
             FogOfWar.LoadContent(Content);
             Planet.LoadContent(Content);
-            PlanetChunk.LoadContent(Content);
-
+            //.LoadContent(Content);
+            Chunk.LoadContent(Content);
             // TODO: use this.Content to load your game content here
         }
 
