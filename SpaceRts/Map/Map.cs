@@ -25,7 +25,7 @@ namespace SpaceRts.Map
             {
                 for (int x = 0; x < width; x++)
                 {
-                    Chunks[y, x] = new Chunk(x, y, ChunkWidth, ChunkHeight, width, height, noiseMap, graphics, planetType, new Color(0,0, (int)(i / 36 * 255)));
+                    Chunks[y, x] = new Chunk(x, y, ChunkWidth, ChunkHeight, width, height, noiseMap, graphics, planetType);
                     i++;
                 }
             }
