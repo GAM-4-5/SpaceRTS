@@ -1,4 +1,5 @@
 ﻿using System;
+using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SpaceRts.Planet;
@@ -22,7 +23,11 @@ namespace SpaceRts
 
             for (int i = 0; i < numbnerOfPlanets; i++)
             {
-                Planets[i] = new Planet(i, random.Next(), 10,10, graphics, (PlanetTypes)random.Next(0, 5));
+                PlanetTypes Pt = (PlanetTypes)random.Next(0, 5);
+                int width = 10;
+                int height = 10;
+                NoiseGenerator noiseGenerator = new NoiseGenerator(Pt , seed, width , height);
+                Planets[i] = new Planet(i, random.Next(), 10,10, graphics);
             }
         }
 

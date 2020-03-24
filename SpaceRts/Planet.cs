@@ -9,7 +9,7 @@ namespace SpaceRts
 {
     public class Planet
     {
-        public enum PlanetTypes { Magma, Dry, Rocky, EarthLike, Cold, Gas };
+        public enum PlanetTypes { Magma, Desert, Rocky, Terran, Cold, Gas };
 
         public PlanetTypes PlanetType;
         private const int CHUNK_WIDTH = 16;

@@ -91,7 +91,7 @@ namespace SpaceRts.Map
 
                     int color = (int)(MathHelper.Clamp(value, 0.1f, 0.9f) * 255);
 
-                    Vector3 pos = new Vector3(tx, ty, value * 50);
+                    Vector3 pos = new Vector3(tx, ty, value * 80);
                     for (int i = 0; i < 6; i++)
                     {
                         Vector3 c1 = pos + corners[i];
@@ -113,7 +113,7 @@ namespace SpaceRts.Map
                                 float value2 = noiseMap[noiseMapIndex];
                                 int color2 = (int)(MathHelper.Clamp(value2, 0.1f, 0.9f) * 255);
 
-                                Vector3 pos2 = new Vector3(tx2, ty2, value2 * 50);
+                                Vector3 pos2 = new Vector3(tx2, ty2, value2 * 80);
 
                                 Vector3 c3 = pos2 + corners[(i + 4) % 6];
                                 Vector3 c4 = pos2 + corners[(i + 3) % 6];
