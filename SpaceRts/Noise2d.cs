@@ -35,6 +35,7 @@ namespace SpaceRts
 
         public void Reseed()
         {
+            Random = new Random(Random.Next());
             CalculatePermutation(out _permutation);
             CalculateGradients(out _gradients);
         }

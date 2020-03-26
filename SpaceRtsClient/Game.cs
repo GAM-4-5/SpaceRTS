@@ -48,7 +48,7 @@ namespace SpaceRtsClient
             //Coms.CreateLobby(CreateLoby);
 
             GameOptions gameOptions = new GameOptions(NumberOfSolarSystems.Normal, NumberOfPlantes.Normal, GameSpeed.Normal);
-            Space = new Space(12201, gameOptions, 3, graphics);
+            Space = new Space(101, gameOptions, 3, graphics);
 
             Camera = new Camera(GraphicsDevice);
 
@@ -90,6 +90,16 @@ namespace SpaceRtsClient
             // TODO: Unload any non ContentManager content here
         }
 
+        enum CameraPerspectives
+        {
+            closeUp,
+            middle,
+            map,
+        }
+
+        CameraPerspectives cameraPerspective = CameraPerspectives.closeUp;
+
+        bool goneFullScreen = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -102,6 +112,36 @@ namespace SpaceRtsClient
 
             MouseState mouseState = Mouse.GetState();
             KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.F12))
+            {
+                goneFullScreen = true;
+
+                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+                graphics.ToggleFullScreen();
+                graphics.ApplyChanges();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.NumPad1))
+            {
+                Camera.position = new Vector3(140, 140, 140);
+                Camera.lookAtVector = new Vector3(30, 30, 0);
+                cameraPerspective = CameraPerspectives.closeUp;
+            }
+            else if (keyboardState.IsKeyDown(Keys.NumPad2))
+            {
+                Camera.position = new Vector3(600, 600, 600);
+                Camera.lookAtVector = new Vector3(80, 80, 0);
+                cameraPerspective = CameraPerspectives.closeUp;
+            }
+            else if (keyboardState.IsKeyDown(Keys.NumPad3))
+            {
+                Camera.position = new Vector3(2100, 1800, 1800);
+                Camera.lookAtVector = new Vector3(300, 300, 0);
+                cameraPerspective = CameraPerspectives.map;
+            }
 
             Camera.Update(gameTime, mouseState, keyboardState);
 

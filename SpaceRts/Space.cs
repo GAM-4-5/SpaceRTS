@@ -95,7 +95,7 @@ namespace SpaceRts
 
             //spriteBatch.DrawString(spriteFont, ChunksDrawn.ToString(), new Vector2(50, 50), Color.Black);
 
-            Console.WriteLine(ChunksDrawn);
+            //Console.WriteLine(ChunksDrawn);
 
             return;
             
@@ -115,7 +115,7 @@ namespace SpaceRts
                         if (SolarSystem != null)
                         {
                             float angle = (float)Math.Atan((SolarSystems[i].Position.Y - SolarSystem.Position.Y) / (SolarSystems[i].Position.X - SolarSystem.Position.X));
-                            Console.WriteLine(angle);
+                            //Console.WriteLine(angle);
                             spriteBatch.Draw(temp,
                                 SolarSystem.Position,
                                 //SolarSystems[i].Position + new Vector2(500, 500),

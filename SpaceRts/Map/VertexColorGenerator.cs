@@ -7,6 +7,6 @@ namespace Map
 {
     class VertexColorGenerator
     {
-        PlanetTypes
+        //PlanetTypes
     }
 }

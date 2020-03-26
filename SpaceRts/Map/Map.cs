@@ -1,5 +1,6 @@
 
 
+using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics; 
 
@@ -15,7 +16,7 @@ namespace SpaceRts.Map
         int Width, Height;
 
         public const int ChunkWidth = 16, ChunkHeight = 16;
-        public Map(int id, int seed, int width, int height, float[] noiseMap, GraphicsDeviceManager graphics, PlanetTypes planetType)
+        public Map(int id, int seed, int width, int height, NoiseGenerator noiseGenerator, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
             Height= height;
@@ -25,7 +26,7 @@ namespace SpaceRts.Map
             {
                 for (int x = 0; x < width; x++)
                 {
-                    Chunks[y, x] = new Chunk(x, y, ChunkWidth, ChunkHeight, width, height, noiseMap, graphics, planetType);
+                    Chunks[y, x] = new Chunk(x, y, ChunkWidth, ChunkHeight, width, height, noiseGenerator, graphics, planetType);
                     i++;
                 }
             }

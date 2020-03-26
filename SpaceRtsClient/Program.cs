@@ -18,9 +18,10 @@ namespace SpaceRtsClient.Desktop
             Thread serverThread = new Thread(() => Coms.Initilize());
             serverThread.Start();
 
-
             using (var game = new Game())
                 game.Run();
+
+            serverThread.Abort();
         }
     }
 }

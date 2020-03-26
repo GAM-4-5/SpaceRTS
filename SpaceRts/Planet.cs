@@ -1,4 +1,5 @@
 ﻿using System;
+using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,38 +11,36 @@ namespace SpaceRts
     public class Planet
     {
         public enum PlanetTypes { Magma, Desert, Rocky, Terran, Cold, Gas };
+        public enum PlanetSizes { Small, Medium, Large };
+        public static int[][] PlanetSizeDImensions = { new int[] { 5, 5 } , new int[] { 8, 8 }, new int[] { 12, 12 } };
 
         public PlanetTypes PlanetType;
+        public PlanetSizes PlanetSize;
         private const int CHUNK_WIDTH = 16;
         private const int CHUNK_HEIGHT = 16;
         private static Effect effect;
-        private static int Width, Height;
+        private int ChunksWidth, ChunksHeight, CellsWidth, CellsHeight;
         public int Id;
         public static Color[][] GradientColors = new Color[][] { new Color[6] { Color.Yellow, Color.Orange, Color.Red, Color.DarkRed, Color.Gray, Color.Black } };
         public static float[][] GradientValues = new float[][] { new float[6] { 0, 0.1f, 0.2f, 0.3f, 0.5f, 0.7f } };
 
-        private Noise2d Noise;
+        private NoiseGenerator noiseGenerator;
 
         private Map.Map Map;
-        public Planet(int id, int seed, int width, int height, GraphicsDeviceManager graphics, PlanetTypes planetType)
+        public Planet(int id, int seed, GraphicsDeviceManager graphics, PlanetTypes planetType, PlanetSizes planetSize)
         {
-            Noise = new Noise2d(seed);
-            var NoiseMap = Noise.GenerateNoiseMap(width * CHUNK_WIDTH, height * CHUNK_HEIGHT, 5f, 1f);
-
             Id = id;
-            Width = width;
-            Height = height;
             PlanetType = planetType;
+            PlanetSize = planetSize;
+            ChunksWidth = PlanetSizeDImensions[(int)planetSize][0];
+            ChunksHeight = PlanetSizeDImensions[(int)planetSize][1];
+            CellsWidth = ChunksWidth * CHUNK_WIDTH;
+            CellsHeight = ChunksHeight * CHUNK_HEIGHT;
 
-            Map = new Map.Map(id, seed, width, height, NoiseMap, graphics, planetType);
+            noiseGenerator = new NoiseGenerator(planetType, seed, CellsWidth, CellsHeight);
 
+            Map = new Map.Map(id, seed, ChunksWidth, ChunksHeight, noiseGenerator, graphics, planetType);
 
-            //using (var reader = new BinaryReader(File.Open("Content/Shaders/FogOfWar.xnb", FileMode.Open)))
-            //{
-            //    effect = new Effect(graphics.GraphicsDevice, reader.ReadBytes((int)reader.BaseStream.Length));
-            //}
-
-            // effect = new BasicEffect(graphics.GraphicsDevice);
         }
 
         public static void LoadContent(ContentManager content)
@@ -61,13 +60,9 @@ namespace SpaceRts
             return ret;
         }
 
-        float x = 0;
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            // effect.View = camera.ViewMatrix;
-            // effect.Projection = camera.ProjectionMatrix;
-            // effect.VertexColorEnabled = true;
-
+            Console.WriteLine(PlanetType);
             Map.Draw(spriteBatch, graphics, camera);
         }
     }

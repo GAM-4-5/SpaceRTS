@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,6 +10,7 @@ namespace SpaceRts.Map
 {
     public class Chunk
     {
+        public const float HEIGHT_SCALE = 20f;
         public const float outerRadius = 10f;
 
         public const float innerRadius = outerRadius * 0.86602540378f;
@@ -53,6 +55,9 @@ namespace SpaceRts.Map
 
         int ChunkX, ChunkY, Width, Height;
 
+        public static Vector3 IREGULARITY_VECTOR = new Vector3(0,0,0);
+        public static Vector3 HEIGHT_SIZE_FALLOFF = new Vector3(1.5f,1.5f,0);
+
         public static RasterizerState TerrainRasterizerState = new RasterizerState()
         {
             FillMode = FillMode.Solid,
@@ -65,7 +70,7 @@ namespace SpaceRts.Map
         public IndexBuffer Indicies;
 
         static Effect effect;
-        public Chunk(int chunkX, int chunkY, int width, int height, int mapWidth, int mapHeight, float[] noiseMap, GraphicsDeviceManager graphics, PlanetTypes planetType)
+        public Chunk(int chunkX, int chunkY, int width, int height, int mapWidth, int mapHeight, NoiseGenerator noiseGenerator, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
             Height = height;
@@ -87,15 +92,17 @@ namespace SpaceRts.Map
                     float tx = pX + (x + y * 0.5f - y / 2) * (innerRadius * 2f);
                     float ty = pY + y * (outerRadius * 1.5f);
 
-                    float value = noiseMap[(y + chunkY * height) * width * mapWidth + x + chunkX * width];
+                    int cellGlobalIndex = (y + chunkY * height) * width * mapWidth + x + chunkX * width;
+                    float value = noiseGenerator.GenerateAtPosition(cellGlobalIndex);
+                    float height1 = value * HEIGHT_SCALE;
 
                     int color = (int)(MathHelper.Clamp(value, 0.1f, 0.9f) * 255);
 
-                    Vector3 pos = new Vector3(tx, ty, value * 80);
+                    Vector3 pos = new Vector3(tx, ty, height1);
                     for (int i = 0; i < 6; i++)
                     {
-                        Vector3 c1 = pos + corners[i];
-                        Vector3 c2 = pos + corners[i + 1];
+                        Vector3 c1 = pos + corners[i];// * HEIGHT_SIZE_FALLOFF / value + IREGULARITY_VECTOR * noiseGenerator.GenerateIregularityAtPosition(cellGlobalIndex, i);
+                        Vector3 c2 = pos + corners[i + 1];// * HEIGHT_SIZE_FALLOFF / value + IREGULARITY_VECTOR * noiseGenerator.GenerateIregularityAtPosition(cellGlobalIndex, i + 1);
 
                         if (i == 0 || i == 4 || i == 5)
                         {
@@ -108,38 +115,64 @@ namespace SpaceRts.Map
                             float ty2 = pY + ny * (outerRadius * 1.5f);
 
                             int noiseMapIndex = (ny + chunkY * height) * width * mapWidth + nx + chunkX * width;
-                            if (noiseMapIndex >= 0 && noiseMapIndex < noiseMap.Length)
+                            float value2 = noiseGenerator.TryGenerateAtIndex(noiseMapIndex, out bool valid);
+                            float height2 = value2 * HEIGHT_SCALE;
+                            if (valid)
                             {
-                                float value2 = noiseMap[noiseMapIndex];
-                                int color2 = (int)(MathHelper.Clamp(value2, 0.1f, 0.9f) * 255);
+                                float dz = height - height2;
+                                Console.WriteLine(dz);
+                                if(Math.Abs(dz) > HEIGHT_SCALE - 1)
+                                {
+                                    Vector3 pos2 = new Vector3(tx2, ty2, height2);
 
-                                Vector3 pos2 = new Vector3(tx2, ty2, value2 * 80);
+                                    Vector3 c3 = pos2 + corners[(i + 4) % 6];
+                                    Vector3 c4 = pos2 + corners[(i + 3) % 6];
 
-                                Vector3 c3 = pos2 + corners[(i + 4) % 6];
-                                Vector3 c4 = pos2 + corners[(i + 3) % 6];
+                                    positions.Add(c1);
+                                    positions.Add(c2);
+                                    positions.Add(c3);
+                                    colors.Add(new Color(10, 10, 10));
+                                    colors.Add(new Color(10, 10, 10));
+                                    colors.Add(new Color(10, 10, 10));
 
-                                positions.Add(c1); 
-                                positions.Add(c2);
-                                positions.Add(c3);
-                                colors.Add(new Color(color, 125, 125)); 
-                                colors.Add(new Color(color, 125, 125));
-                                colors.Add(new Color(color2, 125, 125));
+                                    positions.Add(c4);
+                                    positions.Add(c3);
+                                    positions.Add(c2);
+                                    colors.Add(new Color(10, 10, 10));
+                                    colors.Add(new Color(10, 10, 10));
+                                    colors.Add(new Color(10, 10, 10));
+                                }
+                                else
+                                {
+                                    int color2 = (int)(MathHelper.Clamp(value2, 0.1f, 0.9f) * 255);
 
+                                    Vector3 pos2 = new Vector3(tx2, ty2, height2);
 
-                                positions.Add(c4); 
-                                positions.Add(c3);
-                                positions.Add(c2);
-                                colors.Add(new Color(color2, 125, 125)); 
-                                colors.Add(new Color(color2, 125, 125));
-                                colors.Add(new Color(color, 125, 125));
+                                    Vector3 c3 = pos2 + corners[(i + 4) % 6];
+                                    Vector3 c4 = pos2 + corners[(i + 3) % 6];
+
+                                    positions.Add(c1);
+                                    positions.Add(c2);
+                                    positions.Add(c3);
+                                    colors.Add(new Color(color, 125, 125));
+                                    colors.Add(new Color(color, 125, 125));
+                                    colors.Add(new Color(color2, 125, 125));
+
+                                    positions.Add(c4);
+                                    positions.Add(c3);
+                                    positions.Add(c2);
+                                    colors.Add(new Color(color2, 125, 125));
+                                    colors.Add(new Color(color2, 125, 125));
+                                    colors.Add(new Color(color, 125, 125));
+                                }
 
                             }
 
                         }
+
                         positions.Add(c1); 
                         positions.Add(pos);
                         positions.Add(c2);
-
 
                         colors.Add(new Color(color, 225, 225));
                         colors.Add(new Color(color, 225, 225));
