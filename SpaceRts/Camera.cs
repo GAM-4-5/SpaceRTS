@@ -51,6 +51,7 @@ namespace SpaceRts
 
         private double timeSinceLastClick = 0;
 
+        const float SPEED = 1f;
         public void Update(GameTime gameTime, MouseState mouseState, KeyboardState keyboardState)
         {
             Frustum = new BoundingFrustum(ViewMatrix * ProjectionMatrix * Matrix.CreateScale(0.85f, 0.85f, 1));
@@ -59,41 +60,41 @@ namespace SpaceRts
             #region Keyboard Movment
             if (keyboardState.IsKeyDown(Keys.W))
             {
-                this.position.X -= 0.5f;
-                this.position.Y -= 0.5f;
-                lookAtVector.X -= 0.5f;
-                lookAtVector.Y -= 0.5f;
+                this.position.X -= SPEED;
+                this.position.Y -= SPEED;
+                lookAtVector.X -= SPEED;
+                lookAtVector.Y -= SPEED;
             }
             if (keyboardState.IsKeyDown(Keys.S))
             {
-                this.position.X += 0.5f;
-                this.position.Y += 0.5f;
-                lookAtVector.X += 0.5f;
-                lookAtVector.Y += 0.5f;
+                this.position.X += SPEED;
+                this.position.Y += SPEED;
+                lookAtVector.X += SPEED;
+                lookAtVector.Y += SPEED;
             }
             if (keyboardState.IsKeyDown(Keys.A))
             {
-                this.position.X += 0.5f;
-                this.position.Y -= 0.5f;
-                lookAtVector.X += 0.5f;
-                lookAtVector.Y -= 0.5f;
+                this.position.X += SPEED;
+                this.position.Y -= SPEED;
+                lookAtVector.X += SPEED;
+                lookAtVector.Y -= SPEED;
 
             }
             if (keyboardState.IsKeyDown(Keys.D))
             {
-                this.position.X -= 0.5f;
-                this.position.Y += 0.5f;
-                lookAtVector.X -= 0.5f;
-                lookAtVector.Y += 0.5f;
+                this.position.X -= SPEED;
+                this.position.Y += SPEED;
+                lookAtVector.X -= SPEED;
+                lookAtVector.Y += SPEED;
             }
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                this.position.Z += 1f;
+                this.position.Z += SPEED;
             }
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                this.position.Z -= 1f;
+                this.position.Z -= SPEED;
             }
             #endregion
 

@@ -61,7 +61,7 @@ namespace SpaceRts.Map
         public static RasterizerState TerrainRasterizerState = new RasterizerState()
         {
             FillMode = FillMode.Solid,
-            CullMode = CullMode.CullCounterClockwiseFace,
+            CullMode = CullMode.None,
         };
 
         public BoundingBox BoundingBox;
@@ -96,7 +96,7 @@ namespace SpaceRts.Map
                     float value = noiseGenerator.GenerateAtPosition(cellGlobalIndex);
                     float height1 = value * HEIGHT_SCALE;
 
-                    int color = (int)(MathHelper.Clamp(value, 0.1f, 0.9f) * 255);
+                    int color = (int)(MathHelper.Clamp(value/ 4, 0.1f, 0.9f) * 255);
 
                     Vector3 pos = new Vector3(tx, ty, height1);
                     for (int i = 0; i < 6; i++)
@@ -119,15 +119,15 @@ namespace SpaceRts.Map
                             float height2 = value2 * HEIGHT_SCALE;
                             if (valid)
                             {
-                                float dz = height - height2;
-                                Console.WriteLine(dz);
+                                float dz = -height1 +height2;
+
+
+                                Vector3 c3 = c1 + new Vector3(0,0,dz);
+                                Vector3 c4 = c2 + new Vector3(0, 0, dz);
+
+                                
                                 if(Math.Abs(dz) > HEIGHT_SCALE - 1)
                                 {
-                                    Vector3 pos2 = new Vector3(tx2, ty2, height2);
-
-                                    Vector3 c3 = pos2 + corners[(i + 4) % 6];
-                                    Vector3 c4 = pos2 + corners[(i + 3) % 6];
-
                                     positions.Add(c1);
                                     positions.Add(c2);
                                     positions.Add(c3);
@@ -145,11 +145,6 @@ namespace SpaceRts.Map
                                 else
                                 {
                                     int color2 = (int)(MathHelper.Clamp(value2, 0.1f, 0.9f) * 255);
-
-                                    Vector3 pos2 = new Vector3(tx2, ty2, height2);
-
-                                    Vector3 c3 = pos2 + corners[(i + 4) % 6];
-                                    Vector3 c4 = pos2 + corners[(i + 3) % 6];
 
                                     positions.Add(c1);
                                     positions.Add(c2);

@@ -9,52 +9,52 @@ namespace Map
     public class NoiseGenerator
     {
         private static float[] frequencyList = {
-            2f,     //Magma
-            3f,     //Desert
+            5f,     //Magma
+            5f,     //Desert
             5f,   //Rocky
-            3f,     //Terran
-            0.5f,     //Cold
-            0.2f    //Gas // GASDLC
+            5f,     //Terran
+            5f,     //Cold
+            5f    //Gas // GASDLC
         };
 
         private static float[] amplitudesList =
         {
-            3f,     //Magma
-            2f,     //Desert
-            5f,     //Rocky
-            2f,     //Terran
-            0.5f,   //Cold
-            0.2f    //Gas // GASDLC
+            0.9f,     //Magma
+            0.9f,     //Desert
+            0.9f,     //Rocky
+            0.9f,     //Terran
+            0.9f,   //Cold
+            0.9f,    //Gas // GASDLC
         };
 
         private static int[] minMountainRadiusList =
         {
-            1,      //Magma
-            1,      //Desert
-            4,      //Rocky
-            2,      //Terran
-            2,      //Cold
+            10,      //Magma
+            10,      //Desert
+            40,      //Rocky
+            20,      //Terran
+            40,      //Cold
             40      //Gas // GASDLC
         };
 
         private static int[] maxMountainRadiusList =
         {
-            5,     //Magma
-            4,     //Desert
-            8,     //Rocky
-            5,     //Terran
-            4,   //Cold
-            41    //Gas // GASDLC
+            100,     //Magma
+            400,     //Desert
+            800,     //Rocky
+            600,     //Terran
+            400,   //Cold
+            400,    //Gas // GASDLC
         };
 
         private static int[] minMuntainDistanceList =
         {
-            10,     //Magma
-            15,     //Desert
-            8,     //Rocky
-            14,     //Terran
-            15,   //Cold
-            40    //Gas // GASDLC
+            20,     //Magma
+            20,     //Desert
+            20,     //Rocky
+            20,     //Terran
+            20,   //Cold
+            20,    //Gas // GASDLC
         };
 
         private static Type[][] noiseGenerators = {
@@ -142,7 +142,7 @@ namespace Map
             }
 
             sucess = false;
-            return -1;
+            return -100;
         }
 
         public float GenerateIregularityAtPosition(int i, int x)
