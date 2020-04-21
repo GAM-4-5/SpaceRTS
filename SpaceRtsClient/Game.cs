@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -47,10 +48,6 @@ namespace SpaceRtsClient
 
             //Coms.CreateLobby(CreateLoby);
 
-            GameOptions gameOptions = new GameOptions(NumberOfSolarSystems.Normal, NumberOfPlantes.Normal, GameSpeed.Normal);
-            Space = new Space(101, gameOptions, 3, graphics);
-
-            Camera = new Camera(GraphicsDevice);
 
             Cube = Content.Load<Model>("Models/Cube");
             base.Initialize();
@@ -76,8 +73,21 @@ namespace SpaceRtsClient
             Planet.LoadContent(Content);
             //.LoadContent(Content);
             Chunk.LoadContent(Content);
+            NoiseGenerator.LoadTextures(Content);
 
             Space.spriteFont = Content.Load<SpriteFont>("Fonts/MainFont");
+
+
+
+
+
+            GameOptions gameOptions = new GameOptions(NumberOfSolarSystems.Normal, NumberOfPlantes.Normal, GameSpeed.Normal);
+            Space = new Space(101, gameOptions, 3, graphics);
+
+            Camera = new Camera(GraphicsDevice);
+
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -156,7 +166,7 @@ namespace SpaceRtsClient
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.AliceBlue);
 
             // TODO: Add your drawing code here
 

@@ -1,60 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using SpaceRts;
 using static SpaceRts.Planet;
+using SpaceRts.Util;
 
 namespace Map
 {
     public class NoiseGenerator
     {
         private static float[] frequencyList = {
-            5f,     //Magma
-            5f,     //Desert
+            2f,     //Magma
+            3f,     //Desert
             5f,   //Rocky
-            5f,     //Terran
-            5f,     //Cold
-            5f    //Gas // GASDLC
+            3f,     //Terran
+            0.5f,     //Cold
+            0.2f    //Gas // GASDLC
         };
 
         private static float[] amplitudesList =
         {
-            0.9f,     //Magma
-            0.9f,     //Desert
-            0.9f,     //Rocky
-            0.9f,     //Terran
-            0.9f,   //Cold
-            0.9f,    //Gas // GASDLC
+            3f,     //Magma
+            2f,     //Desert
+            5f,     //Rocky
+            2f,     //Terran
+            0.5f,   //Cold
+            0.2f    //Gas // GASDLC
         };
 
         private static int[] minMountainRadiusList =
         {
-            10,      //Magma
-            10,      //Desert
-            40,      //Rocky
-            20,      //Terran
-            40,      //Cold
+            1,      //Magma
+            1,      //Desert
+            4,      //Rocky
+            2,      //Terran
+            2,      //Cold
             40      //Gas // GASDLC
         };
 
         private static int[] maxMountainRadiusList =
         {
-            100,     //Magma
-            400,     //Desert
-            800,     //Rocky
-            600,     //Terran
-            400,   //Cold
-            400,    //Gas // GASDLC
+            5,     //Magma
+            4,     //Desert
+            8,     //Rocky
+            5,     //Terran
+            4,   //Cold
+            41    //Gas // GASDLC
         };
 
         private static int[] minMuntainDistanceList =
         {
-            20,     //Magma
-            20,     //Desert
-            20,     //Rocky
-            20,     //Terran
-            20,   //Cold
-            20,    //Gas // GASDLC
+            10,     //Magma
+            15,     //Desert
+            8,     //Rocky
+            14,     //Terran
+            15,   //Cold
+            40    //Gas // GASDLC
         };
 
         private static Type[][] noiseGenerators = {
@@ -66,6 +69,84 @@ namespace Map
             new Type[] {typeof(Hills),  typeof(Mountains), },   //Gas 
         };
 
+        // TODO extract elsewhere, adjust
+        public enum BiomeType
+        {
+            // Magma
+            LavaLake,
+            BurningGround,
+            Ashes,
+            VolcanicMountains,
+
+            // Desert
+            Oasis,
+            DryLand,
+            DryPlains,
+            DryMountains,
+
+            // Rocky
+            WaterLake,
+            RockyBeach,
+            SmallRocks,
+            Rock,
+            RockyMountains,
+
+
+            // Terran
+            Ocean,
+            Shallows,
+            Beach,
+            Plains,
+            Hills,
+            Mountains,
+
+
+            // Cold
+            FrozenLake,
+            FrozenLand,
+            FrozenMountains,
+
+            // Gas
+            // DLC 
+            Gas,
+
+            END_VALUE
+        }
+
+        private static (float, BiomeType)[][] biomeValues = {
+            new (float, BiomeType)[] {(0.0f, BiomeType.LavaLake), (0.2f, BiomeType.BurningGround), (0.6f, BiomeType.Ashes), (0.9f, BiomeType.VolcanicMountains) },   //Magma
+            new (float, BiomeType)[] {(0.0f, BiomeType.Oasis), (0.15f, BiomeType.DryLand), (0.4f, BiomeType.DryPlains), (0.9f, BiomeType.DryMountains) },   //Desert
+            new (float, BiomeType)[] {(0.0f, BiomeType.WaterLake), (0.1f, BiomeType.RockyBeach), (0.3f, BiomeType.SmallRocks),(0.5f, BiomeType.Rock), (0.9f, BiomeType.RockyMountains) },   //Rocky
+            new (float, BiomeType)[] {(0.0f, BiomeType.Ocean), (0.30f, BiomeType.Shallows), (0.35f, BiomeType.Beach),(0.45f, BiomeType.Plains), (0.7f, BiomeType.Hills),(0.9f, BiomeType.Mountains) },   //Terran
+            new (float, BiomeType)[] {(0.0f, BiomeType.FrozenLake), (0.3f, BiomeType.FrozenLand), (0.8f, BiomeType.FrozenMountains) },   //Cold
+            new (float, BiomeType)[] {(0.0f, BiomeType.Gas)}, //Gas 
+        };
+
+        private static float[][] ConstructedBiomeValues = new float[biomeValues.Length][];
+
+        public static Texture2D[] Textures = new Texture2D[(int)BiomeType.END_VALUE];
+
+        public static void LoadTextures(ContentManager content)
+        {
+            Console.WriteLine("LOAD");
+            for (int i = 0; i < biomeValues.Length; i++)
+            {
+                float[] constructedFloatValues = new float[biomeValues[i].Length];
+
+                for (int j = 0; j < biomeValues[i].Length; j++)
+                    constructedFloatValues[j] = biomeValues[i][j].Item1;
+
+                ConstructedBiomeValues[i] = constructedFloatValues;
+            }
+
+
+            for (int i = 0; i < (int)BiomeType.END_VALUE; i++)
+            {
+                Textures[i] = content.Load<Texture2D>("Textures/" + ((BiomeType)i).ToString()); 
+            }
+
+        }
+
         public const float IREGUALRITY_FREQUENCY = 10f, IREGULARITY_AMPLITUDE = 10f;
 
         private SubNoiseGenerator[] SubNoiseGenerators;
@@ -76,8 +157,13 @@ namespace Map
         public float Min, Max;
 
         public float[][] noiseIregularityMap;
+
+        public float[] biomeNoiseMap;
         public NoiseGenerator(PlanetTypes planetType, int seed, int width, int height)
         {
+            Noise2d biomeNoise = new Noise2d(new Random(seed).Next());
+            biomeNoiseMap = biomeNoise.GenerateNoiseMap(width, height, 10, 1); // TODO config per planet
+
             PlanetType = planetType;
             Console.WriteLine(PlanetType);
             noiseMap = new float[width * height];
@@ -142,12 +228,23 @@ namespace Map
             }
 
             sucess = false;
-            return -100;
+            return -1;
         }
 
         public float GenerateIregularityAtPosition(int i, int x)
         {
             return noiseIregularityMap[x % 6][i];
+        }
+
+        public BiomeType BiomeAtLocation(int x, int y)
+        {
+            return BiomeAtIndex(y * Width + x);
+        }
+
+        public BiomeType BiomeAtIndex(int i)
+        {
+            float value = biomeNoiseMap[i];
+            return (BiomeType)MathExtended.GradientIndex(value, ConstructedBiomeValues[(int)PlanetType]);
         }
 
     }

@@ -1,5 +1,3 @@
-
-
 using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics; 
@@ -10,8 +8,6 @@ namespace SpaceRts.Map
 {
     public class Map
     {
-        
-
         Chunk[,] Chunks;
         int Width, Height;
 
@@ -19,7 +15,7 @@ namespace SpaceRts.Map
         public Map(int id, int seed, int width, int height, NoiseGenerator noiseGenerator, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
-            Height= height;
+            Height = height;
             Chunks = new Chunk[height, width];
             int i = 0;
             for (int y = 0; y < height; y++)

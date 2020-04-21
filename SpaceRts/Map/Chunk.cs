@@ -4,45 +4,14 @@ using Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using static Map.NoiseGenerator;
 using static SpaceRts.Planet;
 
 namespace SpaceRts.Map
 {
     public class Chunk
     {
-        public const float HEIGHT_SCALE = 20f;
-        public const float outerRadius = 10f;
-
-        public const float innerRadius = outerRadius * 0.86602540378f;
-
-        public static Vector3[] corners = {
-            new Vector3(0f, outerRadius, 0f),
-            new Vector3(innerRadius, 0.5f * outerRadius, 0f),
-            new Vector3(innerRadius, -0.5f * outerRadius, 0f),
-            new Vector3(0f, -outerRadius, 0f),
-            new Vector3(-innerRadius, -0.5f * outerRadius, 0f),
-            new Vector3(-innerRadius, 0.5f * outerRadius, 0f),
-            new Vector3(0f, outerRadius, 0f),
-        };
-
-        public static Tuple<int, int>[] AdjentsEven = {
-            new Tuple<int, int>(0, 1),
-            null,
-            null,
-            null,
-            new Tuple<int, int>(-1, 0),
-            new Tuple<int, int>(-1,1),
-        };
-
         BasicEffect testEffect;
-        public static Tuple<int, int>[] AdjentsOdd = {
-            new Tuple<int, int>(1, 1),
-            null,
-            null,
-            null,
-            new Tuple<int, int>(-1, 0),
-            new Tuple<int, int>(0, 1),
-        };
 
         public static Color[] CornerColors = {
             Color.Red,
@@ -55,8 +24,8 @@ namespace SpaceRts.Map
 
         int ChunkX, ChunkY, Width, Height;
 
-        public static Vector3 IREGULARITY_VECTOR = new Vector3(0,0,0);
-        public static Vector3 HEIGHT_SIZE_FALLOFF = new Vector3(1.5f,1.5f,0);
+        public static Vector3 IREGULARITY_VECTOR = new Vector3(0, 0, 0);
+        public static Vector3 HEIGHT_SIZE_FALLOFF = new Vector3(1.5f, 1.5f, 0);
 
         public static RasterizerState TerrainRasterizerState = new RasterizerState()
         {
@@ -66,170 +35,144 @@ namespace SpaceRts.Map
 
         public BoundingBox BoundingBox;
 
-        public VertexBuffer Vertices;
+        public VertexPositionColorTexture[][] Vertices;
+       // public Texture2D[] Textures;
         public IndexBuffer Indicies;
 
         static Effect effect;
+
+        static Texture2D texture;
+
+        Cell[,] Cells;
+
+        List<BiomeType> Biomes;
         public Chunk(int chunkX, int chunkY, int width, int height, int mapWidth, int mapHeight, NoiseGenerator noiseGenerator, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
             Height = height;
 
+            Cells = new Cell[height, width];
+
             ChunkX = chunkX;
             ChunkY = chunkY;
 
-            List<Vector3> positions = new List<Vector3>();
-            List<Color> colors = new List<Color>();
-            VertexPositionColor[] vertices;
+            List<List<Vector3>> positions = new List<List<Vector3>>();
+            List<List<Vector2>> texturePositions = new List<List<Vector2>>();
+            List<List<Color>> colors = new List<List<Color>>();
+            Biomes = new List<BiomeType>();
 
-            float pX = chunkX * width * innerRadius * 2;
-            float pY = chunkY * height * outerRadius * 3 / 2;
+            int biomesTotal = 0;
+            Dictionary<int, int> biomesToPos = new Dictionary<int, int>();
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    float tx = pX + (x + y * 0.5f - y / 2) * (innerRadius * 2f);
-                    float ty = pY + y * (outerRadius * 1.5f);
+                    Cells[y, x] = new Cell();
 
-                    int cellGlobalIndex = (y + chunkY * height) * width * mapWidth + x + chunkX * width;
-                    float value = noiseGenerator.GenerateAtPosition(cellGlobalIndex);
-                    float height1 = value * HEIGHT_SCALE;
+                    int _cellGlobalIndex = (y + chunkY * height) * width * mapWidth + x + chunkX * width;
 
-                    int color = (int)(MathHelper.Clamp(value/ 4, 0.1f, 0.9f) * 255);
+                    BiomeType biome = noiseGenerator.BiomeAtIndex(_cellGlobalIndex);
 
-                    Vector3 pos = new Vector3(tx, ty, height1);
-                    for (int i = 0; i < 6; i++)
-                    {
-                        Vector3 c1 = pos + corners[i];// * HEIGHT_SIZE_FALLOFF / value + IREGULARITY_VECTOR * noiseGenerator.GenerateIregularityAtPosition(cellGlobalIndex, i);
-                        Vector3 c2 = pos + corners[i + 1];// * HEIGHT_SIZE_FALLOFF / value + IREGULARITY_VECTOR * noiseGenerator.GenerateIregularityAtPosition(cellGlobalIndex, i + 1);
-
-                        if (i == 0 || i == 4 || i == 5)
-                        {
-                            int ax = y % 2 == 0 ? AdjentsEven[i].Item1 : AdjentsOdd[i].Item1;
-                            int ay = y % 2 == 0 ? AdjentsEven[i].Item2 : AdjentsOdd[i].Item2;
-                            int nx = x + ax;
-                            int ny = y + ay;
-
-                            float tx2 = pX + (nx + ny * 0.5f - ny / 2) * (innerRadius * 2f);
-                            float ty2 = pY + ny * (outerRadius * 1.5f);
-
-                            int noiseMapIndex = (ny + chunkY * height) * width * mapWidth + nx + chunkX * width;
-                            float value2 = noiseGenerator.TryGenerateAtIndex(noiseMapIndex, out bool valid);
-                            float height2 = value2 * HEIGHT_SCALE;
-                            if (valid)
-                            {
-                                float dz = -height1 +height2;
-
-
-                                Vector3 c3 = c1 + new Vector3(0,0,dz);
-                                Vector3 c4 = c2 + new Vector3(0, 0, dz);
-
-                                
-                                if(Math.Abs(dz) > HEIGHT_SCALE - 1)
-                                {
-                                    positions.Add(c1);
-                                    positions.Add(c2);
-                                    positions.Add(c3);
-                                    colors.Add(new Color(10, 10, 10));
-                                    colors.Add(new Color(10, 10, 10));
-                                    colors.Add(new Color(10, 10, 10));
-
-                                    positions.Add(c4);
-                                    positions.Add(c3);
-                                    positions.Add(c2);
-                                    colors.Add(new Color(10, 10, 10));
-                                    colors.Add(new Color(10, 10, 10));
-                                    colors.Add(new Color(10, 10, 10));
-                                }
-                                else
-                                {
-                                    int color2 = (int)(MathHelper.Clamp(value2, 0.1f, 0.9f) * 255);
-
-                                    positions.Add(c1);
-                                    positions.Add(c2);
-                                    positions.Add(c3);
-                                    colors.Add(new Color(color, 125, 125));
-                                    colors.Add(new Color(color, 125, 125));
-                                    colors.Add(new Color(color2, 125, 125));
-
-                                    positions.Add(c4);
-                                    positions.Add(c3);
-                                    positions.Add(c2);
-                                    colors.Add(new Color(color2, 125, 125));
-                                    colors.Add(new Color(color2, 125, 125));
-                                    colors.Add(new Color(color, 125, 125));
-                                }
-
-                            }
-
-                        }
-
-                        positions.Add(c1); 
-                        positions.Add(pos);
-                        positions.Add(c2);
-
-                        colors.Add(new Color(color, 225, 225));
-                        colors.Add(new Color(color, 225, 225));
-                        colors.Add(new Color(color, 225, 225));
+                    int pushIndex = -1;
+                    if (!biomesToPos.TryGetValue((int)biome, out pushIndex)){
+                        positions.Add(new List<Vector3>());
+                        texturePositions.Add(new List<Vector2>());
+                        colors.Add(new List<Color>());
+                        biomesToPos.Add((int)biome, biomesTotal);
+                        pushIndex = biomesTotal;
+                        biomesTotal++;
+                        Biomes.Add(biome);
 
                     }
+
+                    (List<Vector3> __positions, List<Vector2> __texturePositions, List<Color> __colors, List<int> __indicies) = Cells[y, x].GenerateMesh(chunkX, chunkY, width, height, mapWidth, mapHeight, x, y, noiseGenerator);
+
+                    positions[pushIndex].AddRange(__positions);
+                    texturePositions[pushIndex].AddRange(__texturePositions);
+                    colors[pushIndex].AddRange(__colors);
                 }
             }
 
-            positions.Reverse();
-            colors.Reverse();
-            vertices = new VertexPositionColor[positions.Count];
+            //positions.Reverse();
+            //colors.Reverse();
+            //vertices = new VertexPositionColor[positions.Count];
             Indicies = new IndexBuffer(graphics.GraphicsDevice, IndexElementSize.ThirtyTwoBits, positions.Count, BufferUsage.WriteOnly);
+
+            Vertices = new VertexPositionColorTexture[biomesTotal][];
+
             int[] indicies = new int[positions.Count];
 
             for (int i = 0; i < positions.Count; i++)
             {
-                vertices[i] = new VertexPositionColor(positions[i], colors[i]);
-                indicies[i] = i;
-            }
+                var _vertices = new VertexPositionColorTexture[positions[i].Count];
+                for (int j = 0; j < positions[i].Count; j++)
+                {
+                    _vertices[j] = new VertexPositionColorTexture(positions[i][j], colors[i][j], texturePositions[i][j]);
+                }
 
-            Vertices = new VertexBuffer(graphics.GraphicsDevice, VertexPositionColor.VertexDeclaration, positions.Count, BufferUsage.WriteOnly);
-            Vertices.SetData(vertices);
+                Vertices[i] = _vertices;
+
+                //vertices[i] = new VertexPositionColor(positions[i], colors[i]);
+                //indicies[i] = i;
+            }
 
             Indicies.SetData(indicies);
 
-            BoundingBox = BoundingBox.CreateFromPoints(positions);
+            //BoundingBox = BoundingBox.CreateFromPoints(positions);
 
             testEffect = new BasicEffect(graphics.GraphicsDevice);
         }
 
         public static void LoadContent(ContentManager content)
         {
-            effect = content.Load<Effect>("Shaders/FogOfWar");
+            effect = content.Load<Effect>("Shaders/EarthLike");
+            texture = content.Load<Texture2D>("Textures/Sand");
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            if (camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
-                return;
+            //if (camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
+            //    return;
 
             Space.ChunksDrawn++;
 
-            effect.Parameters["WorldViewProjection"].SetValue(camera.ViewMatrix * camera.ProjectionMatrix * Matrix.Identity);
+            //effect.Parameters["WorldViewProjection"].SetValue(camera.ViewMatrix * camera.ProjectionMatrix * Matrix.Identity);
+
+            //effect.Parameters["TileTexture"].SetValue(texture);
+
+            effect.Parameters["World"].SetValue(Matrix.Identity);
+            effect.Parameters["View"].SetValue(camera.ViewMatrix);
+            effect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
+            //effect.Parameters["ViewVector"].SetValue(camera.lookAtVector);
+
+            effect.Parameters["ModelTexture"].SetValue(texture);
+
+            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(Matrix.Identity * camera.ViewMatrix));
+            //effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
 
 
             graphics.GraphicsDevice.RasterizerState = TerrainRasterizerState;
             graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            foreach (var pass in effect.CurrentTechnique.Passes)
+            for (int i = 0; i < Vertices.Length; i++)
             {
+                effect.Parameters["ModelTexture"].SetValue(NoiseGenerator.Textures[(int)Biomes[i]]);
 
-                pass.Apply();
-            }
+                foreach (var pass in effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                }
 
-            graphics.GraphicsDevice.SetVertexBuffer(Vertices);
-            graphics.GraphicsDevice.Indices = Indicies;
-            graphics.GraphicsDevice.DrawIndexedPrimitives(
+
+                graphics.GraphicsDevice.DrawUserPrimitives(
                 PrimitiveType.TriangleList,
+                Vertices[i],
                 0,
-                0,
-                Indicies.IndexCount / 3);
+                Vertices[i].Length / 3,
+                VertexPositionColorTexture.VertexDeclaration
+            );
+            }
         }
     }
 }
