@@ -51,12 +51,17 @@ namespace SpaceRts
 
         private double timeSinceLastClick = 0;
 
-        const float SPEED = 1f;
+        float SPEED = 1f;
         public void Update(GameTime gameTime, MouseState mouseState, KeyboardState keyboardState)
         {
             Frustum = new BoundingFrustum(ViewMatrix * ProjectionMatrix * Matrix.CreateScale(0.85f, 0.85f, 1));
             Frustum.Matrix = Frustum.Matrix;
 
+            if (keyboardState.IsKeyDown(Keys.LeftShift))
+                SPEED = 0.1f;
+            else if(keyboardState.IsKeyDown(Keys.LeftControl))
+                SPEED = 20f;
+            else SPEED = 2f;
             #region Keyboard Movment
             if (keyboardState.IsKeyDown(Keys.W))
             {
