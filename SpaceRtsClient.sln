@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceRts", "SpaceRts\SpaceR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRtsServer", "SpaceRtsServer\SpaceRtsServer.csproj", "{F0D53FBC-9CCA-4B85-8A68-90D774A18CE8}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceRTS_UI", "SpaceRTS_UI\SpaceRTS_UI.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -40,6 +40,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Models/Cube.fbx
 
+#begin Shaders/BlackHoleTransit.fx
+/importer:EffectImporter
+/processor:RemoteEffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/BlackHoleTransit.fx
+
 #begin Shaders/Distance.fx
 /importer:EffectImporter
 /processor:RemoteEffectProcessor
@@ -57,6 +63,30 @@
 /processor:RemoteEffectProcessor
 /processorParam:DebugMode=Auto
 /build:Shaders/FogOfWar.fx
+
+#begin Shaders/MainMenu.fx
+/importer:EffectImporter
+/processor:RemoteEffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/MainMenu.fx
+
+#begin Shaders/Tester.fx
+/importer:EffectImporter
+/processor:RemoteEffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/Tester.fx
+
+#begin Shaders/Textures/noise.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Shaders/Textures/noise.png
 
 #begin Textures/Ashes.jpg
 /importer:TextureImporter
