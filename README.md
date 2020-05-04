@@ -13,10 +13,11 @@ SpaceRTS je real time strategy igrica, koja uključuje nadgledanje i izgradnju k
 * [ ] FogOfWar
 
 ### Screenshots
-2020-03-24
-
-![Osnovno generiranje terena](Screenshots/PlanetTerrain_0.png "Osnovno generiranje terena")
-
 2020-03-26
-
 ![Priprema boljeg generiranja terena](Screenshots/PlanetTerrain_1.png "Priprema boljeg generiranja terena")
+
+2020-04-21
+![Texturiran teren](Screenshots/PlanetTerrain_2.png "Texturiran teren")
+
+2020-05-04
+![MainMenu](Screenshots/MainMenu_0.png "MainMenu")
