@@ -113,7 +113,7 @@ namespace Map
             END_VALUE
         }
 
-        private static (float, BiomeType)[][] biomeValues = {
+        public static (float, BiomeType)[][] biomeValues = {
             new (float, BiomeType)[] {(0.0f, BiomeType.LavaLake), (0.2f, BiomeType.BurningGround), (0.6f, BiomeType.Ashes), (0.9f, BiomeType.VolcanicMountains) },   //Magma
             new (float, BiomeType)[] {(0.0f, BiomeType.Oasis), (0.15f, BiomeType.DryLand), (0.4f, BiomeType.DryPlains), (0.9f, BiomeType.DryMountains) },   //Desert
             new (float, BiomeType)[] {(0.0f, BiomeType.WaterLake), (0.1f, BiomeType.RockyBeach), (0.3f, BiomeType.SmallRocks),(0.5f, BiomeType.Rock), (0.9f, BiomeType.RockyMountains) },   //Rocky

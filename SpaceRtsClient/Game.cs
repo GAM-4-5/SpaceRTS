@@ -91,7 +91,7 @@ namespace SpaceRtsClient
             Textures.Load(Content);
             Shaders.Load(Content);
 
-            Space = new Space(101, gameOptions, 3, graphics);
+            Space = new Space(1423, gameOptions, 3, graphics);
 
             Camera = new Camera(GraphicsDevice);
 
@@ -146,7 +146,7 @@ namespace SpaceRtsClient
 
             if(PlayButtonClicked && TimePlayClicked - gameTime.TotalGameTime.TotalSeconds < -Math.PI * 0.75)
             {
-                GameSteate = GameSteates.Lobby;
+                GameSteate = GameSteates.MainMenu;
             }
 
             if (keyboardState.IsKeyDown(Keys.F12))
@@ -196,7 +196,7 @@ namespace SpaceRtsClient
             Game,
         }
 
-        public static GameSteates GameSteate = GameSteates.MainMenu;
+        public static GameSteates GameSteate = GameSteates.Game;
 
         static Point PlayPosition = new Point(256, 512);
         static Point SettingsPosition = new Point(256, 512 + 128);

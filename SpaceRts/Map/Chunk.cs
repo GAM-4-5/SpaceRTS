@@ -46,10 +46,12 @@ namespace SpaceRts.Map
         Cell[,] Cells;
 
         List<BiomeType> Biomes;
+        PlanetTypes planetType;
         public Chunk(int chunkX, int chunkY, int width, int height, int mapWidth, int mapHeight, NoiseGenerator noiseGenerator, GraphicsDeviceManager graphics, PlanetTypes planetType)
         {
             Width = width;
             Height = height;
+            this.planetType = planetType;
 
             Cells = new Cell[height, width];
 
@@ -157,7 +159,7 @@ namespace SpaceRts.Map
 
             for (int i = 0; i < Vertices.Length; i++)
             {
-                effect.Parameters["ModelTexture"].SetValue(NoiseGenerator.Textures[(int)Biomes[i]]);
+                effect.Parameters["ModelTexture"].SetValue(NoiseGenerator.Textures[NoiseGenerator.biomeValues[(int)planetType].Length + (int)Biomes[i]]);
 
                 foreach (var pass in effect.CurrentTechnique.Passes)
                 {
