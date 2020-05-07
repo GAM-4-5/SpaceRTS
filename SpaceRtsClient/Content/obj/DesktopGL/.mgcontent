@@ -6,11 +6,73 @@
   <SourceFiles>
     <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Fonts/MainFont.spritefont</File>
     <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Models/Cube.fbx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/BlackHoleTransit.fx</File>
     <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/Distance.fx</File>
     <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/EarthLike.fx</File>
     <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/FogOfWar.fx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/MainMenu.fx</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/Textures/noise.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Ashes.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Beach.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/BurningGround.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/DryLand.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/DryMountains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/DryPlains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/FrozenLake.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/FrozenLand.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/FrozenMountains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Gas.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Grass.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Hills.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/LavaLake.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Mountains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Mud.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Oasis.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Ocean.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Plains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Rock.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/RockyBeach.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/RockyMountains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Sand.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Shallows.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/SmallRocks.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Snow.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Stone.png</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/VolcanicMountains.jpg</File>
+    <File>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/WaterLake.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

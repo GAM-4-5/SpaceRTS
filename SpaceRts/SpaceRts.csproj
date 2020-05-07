@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="Structures\" />
     <Folder Include="Units\" />
-    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Game1.cs" />
