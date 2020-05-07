@@ -70,12 +70,6 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/MainMenu.fx
 
-#begin Shaders/Tester.fx
-/importer:EffectImporter
-/processor:RemoteEffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/Tester.fx
-
 #begin Shaders/Textures/noise.png
 /importer:TextureImporter
 /processor:TextureProcessor

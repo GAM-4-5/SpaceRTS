@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/EarthLike.fx</SourceFile>
-  <SourceTime>2020-03-24T19:07:54.1371105+01:00</SourceTime>
+  <SourceTime>2020-04-21T14:11:41.3530707+02:00</SourceTime>
   <DestFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/bin/DesktopGL/Content/Shaders/EarthLike.xnb</DestFile>
-  <DestTime>2020-03-24T19:14:07.7669211+01:00</DestTime>
+  <DestTime>2020-04-21T14:12:04.0815759+02:00</DestTime>
   <Importer>EffectImporter</Importer>
   <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
   <Processor>RemoteEffectProcessor</Processor>

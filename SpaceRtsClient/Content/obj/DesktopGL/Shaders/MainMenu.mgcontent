@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Shaders/MainMenu.fx</SourceFile>
+  <SourceTime>2020-05-07T14:25:06.2527942+02:00</SourceTime>
+  <DestFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/bin/DesktopGL/Shaders/MainMenu.xnb</DestFile>
+  <DestTime>2020-05-07T14:31:52.5013398+02:00</DestTime>
+  <Importer>EffectImporter</Importer>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <Processor>RemoteEffectProcessor</Processor>
+  <ProcessorTime>2020-03-24T19:07:54.0654552+01:00</ProcessorTime>
+  <Parameters>
+    <Key>DebugMode</Key>
+    <Value>Auto</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

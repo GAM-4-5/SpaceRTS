@@ -11,6 +11,10 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SpaceRTS_UI", "SpaceRTS_UI\SpaceRTS_UI.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SpaceRTS_UI\SpaceRTS_UI.projitems*{905b6b3b-33b1-49fb-b691-ae30f88cb4f5}*SharedItemsImports = 4
+		SpaceRTS_UI\SpaceRTS_UI.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
