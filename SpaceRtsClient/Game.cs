@@ -180,8 +180,8 @@ namespace SpaceRtsClient
 
                 if (keyboardState.IsKeyDown(Keys.NumPad1))
                 {
-                    Global.Camera.position = new Vector3(140, 140, 140);
-                    Global.Camera.lookAtVector = new Vector3(30, 30, 0);
+                    Global.Camera.position = new Vector3(30, 30, 40);
+                    Global.Camera.lookAtVector = new Vector3(0, 0, 0);
                     cameraPerspective = CameraPerspectives.closeUp;
                 }
                 else if (keyboardState.IsKeyDown(Keys.NumPad2))

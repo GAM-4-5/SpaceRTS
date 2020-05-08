@@ -153,10 +153,10 @@ namespace SpaceRts.Map
                 for (int x = 0; x < Width; x++)
                 {
                     float? m = Cells[y, x].Intersects(ray);
-                    if (m != null)
+                    if (m != null && (float)m < min)
                     {
-                        min = MathHelper.Min(min, (float)m);
-                        return _cell = Cells[y, x];
+                        min = (float)m;
+                        _cell = Cells[y, x];
                     }
                 }
             }
