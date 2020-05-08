@@ -2,22 +2,26 @@
 
 SpaceRTS je real time strategy igrica, koja uključuje nadgledanje i izgradnju kolonije i širenje svojega carstva po svemiru.
 
-### Weakly TODO
-* [X] ~~*Osnovno generiranje terena*~~ [2020-03-24]
-* [ ] Poboljšano generiranje terena - rubovi, rijeke, istaknutije planine, ore, etc.
-* [ ] Detekcija klikova na polja
-* [ ] Crtanje solarnih sustava, planeta
-* [ ] Lobby system
-* [ ] Povezivanje kljenata
-* [ ] Priprema struktura i unita
-* [ ] FogOfWar
+
+### Dokumentacija
+[https://github.com/GAM-4-5/SpaceRTS/raw/master/Dokumentacija/Dokumentacija.pdf](Dokumentacija)
+
+### Dokumentacija koda
+[https://github.com/GAM-4-5/SpaceRTS/raw/master/SpaceRts/latex/refman.pdf](Dokumentacija koda)
+
+### Screencast
+[https://drive.google.com/file/d/1tGFYC_l8vq5kMHUqMta3322uSU5soTAO/view?usp=sharing](Screencast)
+
+
+
 
 ### Screenshots
-2020-03-26
-![Priprema boljeg generiranja terena](Screenshots/PlanetTerrain_1.png "Priprema boljeg generiranja terena")
 
-2020-04-21
-![Texturiran teren](Screenshots/PlanetTerrain_2.png "Texturiran teren")
+Korištene tehnologije
+![Korištene tehnologije](Dokumentacija/figures/slika6.png "Korištene tehnologije")
 
-2020-05-04
-![MainMenu](Screenshots/MainMenu_0.png "MainMenu")
+GamePlay
+![MainMenu](Dokumentacija/figures/Slika4.png "MainMenu")
+![GamePlay](Dokumentacija/figures/Slika5.png "GamePlay")
+
+
