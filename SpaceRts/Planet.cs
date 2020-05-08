@@ -8,6 +8,7 @@ using SpaceRts.Map;
 using System.Collections.Generic;
 using SpaceRts.Structures;
 using Microsoft.Xna.Framework.Input;
+using SpaceRts.Noise;
 
 namespace SpaceRts
 {
@@ -46,6 +47,32 @@ namespace SpaceRts
 
             Map = new Map.Map(id, seed, ChunksWidth, ChunksHeight, noiseGenerator, graphics, planetType);
 
+            List<Vector2> greens = PoissonSample.GeneratePoints(new Random(seed), 15, new Vector2(CellsWidth, CellsHeight));
+            List<Vector2> blues = PoissonSample.GeneratePoints(new Random(seed), 20, new Vector2(CellsWidth, CellsHeight));
+            List<Vector2> reds = PoissonSample.GeneratePoints(new Random(seed), 25, new Vector2(CellsWidth, CellsHeight));
+
+            for (int i = 0; i < greens.Count; i++)
+            {
+                Structures.Add(new Ore(GetCellAtPosition(greens[i]), Ore.OreTypes.Green));
+            }
+            for (int i = 0; i < blues.Count; i++)
+            {
+                Structures.Add(new Ore(GetCellAtPosition(blues[i]), Ore.OreTypes.Blue));
+            }
+            for (int i = 0; i < reds.Count; i++)
+            {
+                Structures.Add(new Ore(GetCellAtPosition(reds[i]), Ore.OreTypes.Red));
+            }
+        }
+
+        public Cell GetCellAtPosition(Vector2 position)
+        {
+            return GetCellAtPosition((int)position.X, (int)position.Y);
+        }
+
+        public Cell GetCellAtPosition(int x, int y)
+        {
+            return Map.CellAtPosition(x, y);
         }
 
         public void Update()
@@ -88,7 +115,7 @@ namespace SpaceRts
 
             for (int i = 0; i < Structures.Count; i++)
             {
-                if (Structures[i] != null)
+                if (Structures[i] != null && camera.Frustum.Contains(Structures[i].BoundingBox) == ContainmentType.Disjoint)
                     Structures[i].Draw(spriteBatch, graphics, camera);
             }
         }

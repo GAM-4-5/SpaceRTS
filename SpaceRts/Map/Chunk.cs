@@ -43,7 +43,7 @@ namespace SpaceRts.Map
 
         static Texture2D texture;
 
-        Cell[,] Cells;
+        public Cell[,] Cells;
 
         List<BiomeType> Biomes;
         PlanetTypes planetType;

@@ -28,6 +28,21 @@ namespace SpaceRts.Map
             }
         }
 
+        public Cell CellAtPosition(int cx, int cy, int x, int y)
+        {
+            return Chunks[cy, cx].Cells[x, y];
+        }
+
+        public Cell CellAtPosition(int x, int y)
+        {
+            if (x >= 0 && y >= 0 && x < Width * ChunkWidth && y < Height * ChunkHeight)
+            {
+                return CellAtPosition(x / ChunkWidth, y / ChunkHeight, x % ChunkWidth, y % ChunkHeight);
+            }
+
+            return null;
+        }
+
         public void Update()
         {
 

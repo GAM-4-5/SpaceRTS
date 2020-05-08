@@ -59,11 +59,11 @@ namespace SpaceRtsClient
 
         }
 
-        ClickableText PlayButton;
+        ClickableText PlayButton, SettingsButton, ExitButton;
         bool PlayButtonClicked;
         double TimePlayClicked;
 
-        public static GameSteates GameSteate = GameSteates.Game;
+        public static GameSteates GameSteate = GameSteates.MainMenu;
 
         static Point PlayPosition = new Point(256, 512);
         static Point SettingsPosition = new Point(256, 512 + 128);
@@ -90,9 +90,13 @@ namespace SpaceRtsClient
 
             GameOptions gameOptions = new GameOptions(NumberOfSolarSystems.Normal, NumberOfPlantes.Normal, GameSpeed.Normal);
 
+            // TODO move and optimize imports to LIB , for client only
+
             //Fonts.Load(Content); TODO Implement
             Models.Load(Content);
+
             SpaceRts.Models.Base = Models.Zhus_Base;
+            SpaceRts.Models.Load(Content);
             Textures.Load(Content);
             Shaders.Load(Content);
 
@@ -103,6 +107,14 @@ namespace SpaceRtsClient
             PlayButton = new ClickableText(PlayPosition, "Play", Space.spriteFont, Color.White, new Point(0, 0), (GameTime gameTime) => {
                 PlayButtonClicked = true;
                 TimePlayClicked = gameTime.TotalGameTime.TotalSeconds;
+            });
+
+            SettingsButton = new ClickableText(PlayPosition + new Point(0, (int)Space.spriteFont.MeasureString("Play").Y + 50), "Settigs", Space.spriteFont, Color.White, new Point(0, 0), (GameTime gameTime) => {
+                GameSteate = GameSteates.Settings;
+            });
+
+            ExitButton = new ClickableText(PlayPosition + new Point(0, (int)Space.spriteFont.MeasureString("Settigs").Y + 50) + new Point(0, (int)Space.spriteFont.MeasureString("Play").Y + 50), "Exit", Space.spriteFont, Color.White, new Point(0, 0), (GameTime gameTime) => {
+                Exit();
             });
 
             _planetRenderTarget = new RenderTarget2D(GraphicsDevice, (int)(GraphicsDevice.Viewport.Width * 0.625f + 1), GraphicsDevice.Viewport.Height / 2, false, SurfaceFormat.Color, DepthFormat.None);
@@ -134,6 +146,7 @@ namespace SpaceRtsClient
 
         FrameCounter _frameCounter = new FrameCounter();
 
+        double PlanetOrSolarSwitchCulldown;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -147,19 +160,53 @@ namespace SpaceRtsClient
             MouseState mouseState = Mouse.GetState();
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if(GameSteate == GameSteates.MainMenu)
+            if (GameSteate == GameSteates.MainMenu)
             {
                 PlayButton.Update(gameTime, mouseState);
+                SettingsButton.Update(gameTime, mouseState);
+                ExitButton.Update(gameTime, mouseState);
 
                 if (PlayButtonClicked && TimePlayClicked - gameTime.TotalGameTime.TotalSeconds < -Math.PI * 0.75)
                 {
-                    GameSteate = GameSteates.MainMenu;
+                    GameSteate = GameSteates.Game;
                 }
             }
-            else if (GameSteate == GameSteates.Game)
+
+            if (GameSteate == GameSteates.Game)
             {
                 Global.MouseState = mouseState;
                 Global.KeyboardState = keyboardState;
+
+                if (PlanetOrSolarSwitchCulldown <= 0)
+                {
+                    if (keyboardState.IsKeyDown(Keys.Left))
+                    {
+                        Global.SelectedPlanet -= 1;
+                        PlanetOrSolarSwitchCulldown = 2000;
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Right))
+                    {
+                        Global.SelectedPlanet += 1;
+                        PlanetOrSolarSwitchCulldown = 2000;
+                    }
+
+                    if (keyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyUp(Keys.LeftControl))
+                    {
+                        Global.SelectedSolarSystem += 1;
+                        PlanetOrSolarSwitchCulldown = 2000;
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Down) && keyboardState.IsKeyUp(Keys.LeftControl))
+                    {
+                        Global.SelectedSolarSystem -= 1;
+                        PlanetOrSolarSwitchCulldown = 2000;
+                    }
+                }
+                else
+                {
+                    PlanetOrSolarSwitchCulldown -= gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
+
+                Global.Camera.Update(gameTime, mouseState, keyboardState);
 
                 Vector2 mousePosition = mouseState.Position.ToVector2();
 
@@ -175,8 +222,6 @@ namespace SpaceRtsClient
                 Global.ClickRay = new Ray(nearPoint, direction);
 
                 Space.Update();
-
-
 
                 if (keyboardState.IsKeyDown(Keys.NumPad1))
                 {
@@ -196,12 +241,7 @@ namespace SpaceRtsClient
                     Global.Camera.lookAtVector = new Vector3(300, 300, 0);
                     cameraPerspective = CameraPerspectives.map;
                 }
-
-                Global.Camera.Update(gameTime, mouseState, keyboardState);
             }
-
-
-
 
             if (keyboardState.IsKeyDown(Keys.F12))
             {
@@ -282,7 +322,11 @@ namespace SpaceRtsClient
                 spriteBatch.Begin();
 
                 spriteBatch.Draw(_planetRenderTarget, new Vector2(0, 0), new Rectangle(0, 0, _planetRenderTarget.Width, _planetRenderTarget.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+
                 PlayButton.Draw(graphics, spriteBatch);
+                SettingsButton.Draw(graphics, spriteBatch);
+                ExitButton.Draw(graphics, spriteBatch);
+
                 spriteBatch.DrawString(Space.spriteFont, fps, new Vector2(50,50), Color.White);
 
                 spriteBatch.End();

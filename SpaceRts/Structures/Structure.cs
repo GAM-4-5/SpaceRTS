@@ -20,6 +20,7 @@ namespace SpaceRts.Structures
 
         Model Model;
         StructureTypes StructureType;
+        public BoundingBox BoundingBox;
         //private model 
         //wpublic int [] ;
         public Structure(StructureTypes structureType, Model model, Cell cell, int cost, int prod, Player player)
