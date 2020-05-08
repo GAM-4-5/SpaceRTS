@@ -620,7 +620,7 @@ namespace SpaceRts.Map
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
 
-                    effect.World = Matrix.CreateTranslation(calculatedCorners[0]);
+                    effect.World = Matrix.CreateTranslation(Vector3.Lerp(calculatedCorners[0], calculatedCorners[3], 0.5f));
                     effect.View = camera.ViewMatrix;
                     effect.Projection = camera.ProjectionMatrix;
                 }
