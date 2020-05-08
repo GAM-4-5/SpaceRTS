@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace SpaceRts
+namespace SpaceRts.Noise
 {
     public class Noise2d
     {

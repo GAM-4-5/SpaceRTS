@@ -29,9 +29,19 @@ namespace SpaceRts
             }
         }
 
+        public void Update()
+        {
+            Planets[Global.SelectedPlanet].SelectedUpdate();
+            for (int i = 0; i < Planets.Length; i++)
+            {
+                if(i != Global.SelectedPlanet)
+                    Planets[i].Update();
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            Planets[0].Draw(spriteBatch, graphics, camera);
+            Planets[Global.SelectedPlanet].Draw(spriteBatch, graphics, camera);
             return;
             
             for (int i = 0; i < Planets.Length; i++)

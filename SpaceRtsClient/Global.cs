@@ -3,18 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 namespace SpaceRtsClient
 {
-    public class Global
-    {
-        public Global()
-        {
-        }
-    }
-
     public static class Fonts
     {
         internal static void Load(ContentManager content)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public static class Models
+    {
+        public static Model Zhus_Base;
+
+        public static void Load(ContentManager content)
+        {
+            Zhus_Base = content.Load<Model>("Models/Zhus/Base");
         }
     }
 

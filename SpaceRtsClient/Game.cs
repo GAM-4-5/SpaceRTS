@@ -33,8 +33,6 @@ namespace SpaceRtsClient
         Space Space;
         Model Cube;
 
-        public static Camera Camera;
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -65,6 +63,12 @@ namespace SpaceRtsClient
         bool PlayButtonClicked;
         double TimePlayClicked;
 
+        public static GameSteates GameSteate = GameSteates.Game;
+
+        static Point PlayPosition = new Point(256, 512);
+        static Point SettingsPosition = new Point(256, 512 + 128);
+        static Point ExitPosition = new Point(256, 512 + 256);
+
         RenderTarget2D _planetRenderTarget;
 
         /// <summary>
@@ -87,13 +91,14 @@ namespace SpaceRtsClient
             GameOptions gameOptions = new GameOptions(NumberOfSolarSystems.Normal, NumberOfPlantes.Normal, GameSpeed.Normal);
 
             //Fonts.Load(Content); TODO Implement
-
+            Models.Load(Content);
+            SpaceRts.Models.Base = Models.Zhus_Base;
             Textures.Load(Content);
             Shaders.Load(Content);
 
             Space = new Space(1423, gameOptions, 3, graphics);
 
-            Camera = new Camera(GraphicsDevice);
+            Global.Camera = new Camera(GraphicsDevice);
 
             PlayButton = new ClickableText(PlayPosition, "Play", Space.spriteFont, Color.White, new Point(0, 0), (GameTime gameTime) => {
                 PlayButtonClicked = true;
@@ -142,12 +147,61 @@ namespace SpaceRtsClient
             MouseState mouseState = Mouse.GetState();
             KeyboardState keyboardState = Keyboard.GetState();
 
-            PlayButton.Update(gameTime, mouseState);
-
-            if(PlayButtonClicked && TimePlayClicked - gameTime.TotalGameTime.TotalSeconds < -Math.PI * 0.75)
+            if(GameSteate == GameSteates.MainMenu)
             {
-                GameSteate = GameSteates.MainMenu;
+                PlayButton.Update(gameTime, mouseState);
+
+                if (PlayButtonClicked && TimePlayClicked - gameTime.TotalGameTime.TotalSeconds < -Math.PI * 0.75)
+                {
+                    GameSteate = GameSteates.MainMenu;
+                }
             }
+            else if (GameSteate == GameSteates.Game)
+            {
+                Global.MouseState = mouseState;
+                Global.KeyboardState = keyboardState;
+
+                Vector2 mousePosition = mouseState.Position.ToVector2();
+
+                Vector3 nearPoint = new Vector3(mousePosition, 0);
+                Vector3 farPoint = new Vector3(mousePosition, 1);
+
+                nearPoint = GraphicsDevice.Viewport.Unproject(nearPoint, Global.Camera.ProjectionMatrix, Global.Camera.ViewMatrix, Matrix.Identity);
+                farPoint = GraphicsDevice.Viewport.Unproject(farPoint, Global.Camera.ProjectionMatrix, Global.Camera.ViewMatrix, Matrix.Identity);
+
+                Vector3 direction = farPoint - nearPoint;
+                direction.Normalize();
+
+                Global.ClickRay = new Ray(nearPoint, direction);
+
+                Space.Update();
+
+
+
+                if (keyboardState.IsKeyDown(Keys.NumPad1))
+                {
+                    Global.Camera.position = new Vector3(140, 140, 140);
+                    Global.Camera.lookAtVector = new Vector3(30, 30, 0);
+                    cameraPerspective = CameraPerspectives.closeUp;
+                }
+                else if (keyboardState.IsKeyDown(Keys.NumPad2))
+                {
+                    Global.Camera.position = new Vector3(600, 600, 600);
+                    Global.Camera.lookAtVector = new Vector3(80, 80, 0);
+                    cameraPerspective = CameraPerspectives.closeUp;
+                }
+                else if (keyboardState.IsKeyDown(Keys.NumPad3))
+                {
+                    Global.Camera.position = new Vector3(2100, 1800, 1800);
+                    Global.Camera.lookAtVector = new Vector3(300, 300, 0);
+                    cameraPerspective = CameraPerspectives.map;
+                }
+
+                Global.Camera.Update(gameTime, mouseState, keyboardState);
+            }
+
+
+
 
             if (keyboardState.IsKeyDown(Keys.F12))
             {
@@ -164,27 +218,6 @@ namespace SpaceRtsClient
                 graphics.ApplyChanges();
             }
 
-            if (keyboardState.IsKeyDown(Keys.NumPad1))
-            {
-                Camera.position = new Vector3(140, 140, 140);
-                Camera.lookAtVector = new Vector3(30, 30, 0);
-                cameraPerspective = CameraPerspectives.closeUp;
-            }
-            else if (keyboardState.IsKeyDown(Keys.NumPad2))
-            {
-                Camera.position = new Vector3(600, 600, 600);
-                Camera.lookAtVector = new Vector3(80, 80, 0);
-                cameraPerspective = CameraPerspectives.closeUp;
-            }
-            else if (keyboardState.IsKeyDown(Keys.NumPad3))
-            {
-                Camera.position = new Vector3(2100, 1800, 1800);
-                Camera.lookAtVector = new Vector3(300, 300, 0);
-                cameraPerspective = CameraPerspectives.map;
-            }
-
-            Camera.Update(gameTime, mouseState, keyboardState);
-
             base.Update(gameTime);
         }
 
@@ -196,11 +229,6 @@ namespace SpaceRtsClient
             Game,
         }
 
-        public static GameSteates GameSteate = GameSteates.Game;
-
-        static Point PlayPosition = new Point(256, 512);
-        static Point SettingsPosition = new Point(256, 512 + 128);
-        static Point ExitPosition = new Point(256, 512 + 256);
 
         public void InitRenderTargets()
         {
@@ -291,9 +319,9 @@ namespace SpaceRtsClient
             }
             else if (GameSteate == GameSteates.Game)
             {
-                spriteBatch.Begin(transformMatrix: Camera.ProjectionMatrix);
+                spriteBatch.Begin(transformMatrix: Global.Camera.ProjectionMatrix);
                 //spriteBatch.Begin();
-                Space.Draw(spriteBatch, graphics, Camera);
+                Space.Draw(spriteBatch, graphics, Global.Camera);
                 spriteBatch.End();
 
                 DrawModel(Cube, Vector3.Zero);
@@ -312,8 +340,8 @@ namespace SpaceRtsClient
                     effect.PreferPerPixelLighting = true;
 
                     effect.World = Matrix.CreateTranslation(position);
-                    effect.View = Camera.ViewMatrix;
-                    effect.Projection = Camera.ProjectionMatrix;
+                    effect.View = Global.Camera.ViewMatrix;
+                    effect.Projection = Global.Camera.ProjectionMatrix;
                 }
 
                 mesh.Draw();

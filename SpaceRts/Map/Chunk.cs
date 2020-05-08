@@ -121,7 +121,7 @@ namespace SpaceRts.Map
 
             Indicies.SetData(indicies);
 
-            //BoundingBox = BoundingBox.CreateFromPoints(positions);
+            BoundingBox = new BoundingBox(new Vector3(chunkX * width * Cell.innerRadius * 2, chunkY * height * Cell.outerRadius * 3 / 2, 0), new Vector3((chunkX + 1 ) * width * Cell.innerRadius * 2, (chunkY + 1)* height * Cell.outerRadius * 3 / 2, 0));
 
             testEffect = new BasicEffect(graphics.GraphicsDevice);
         }
@@ -132,10 +132,42 @@ namespace SpaceRts.Map
             texture = content.Load<Texture2D>("Textures/Sand");
         }
 
+        public void Update()
+        {
+
+        }
+
+        public float? Intersect(Ray ray)
+        {
+            return BoundingBox.Intersects(ray);
+        }
+
+        public Cell Intersects(Ray ray)
+        {
+            Cell _cell = null;
+
+            float min = float.PositiveInfinity;
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    float? m = Cells[y, x].Intersects(ray);
+                    if (m != null)
+                    {
+                        min = MathHelper.Min(min, (float)m);
+                        return _cell = Cells[y, x];
+                    }
+                }
+            }
+
+            return _cell;
+        }
+
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
-            //if (camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
-            //    return;
+            if (camera.Frustum.Contains(BoundingBox) == ContainmentType.Disjoint)
+                return;
 
             Space.ChunksDrawn++;
 

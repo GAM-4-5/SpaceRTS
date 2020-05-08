@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SpaceRts.Map;
+using System.Collections.Generic;
+using SpaceRts.Structures;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceRts
 {
@@ -27,6 +30,8 @@ namespace SpaceRts
         private NoiseGenerator noiseGenerator;
 
         private Map.Map Map;
+
+        private List<Structure> Structures = new List<Structure>();
         public Planet(int id, int seed, GraphicsDeviceManager graphics, PlanetTypes planetType, PlanetSizes planetSize)
         {
             Id = id;
@@ -41,6 +46,21 @@ namespace SpaceRts
 
             Map = new Map.Map(id, seed, ChunksWidth, ChunksHeight, noiseGenerator, graphics, planetType);
 
+        }
+
+        public void Update()
+        {
+
+        }
+
+        public void SelectedUpdate()
+        {
+            if (Global.MouseState.LeftButton == ButtonState.Pressed)
+            {
+                (Chunk _chunk, Cell _cell) = Map.Intersect(Global.ClickRay);
+
+                Structures.Add(new Base(Models.Base, _cell));
+            }
         }
 
         public static void LoadContent(ContentManager content)
@@ -63,7 +83,14 @@ namespace SpaceRts
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
             Console.WriteLine(PlanetType);
+
             Map.Draw(spriteBatch, graphics, camera);
+
+            for (int i = 0; i < Structures.Count; i++)
+            {
+                if (Structures[i] != null)
+                    Structures[i].Draw(spriteBatch, graphics, camera);
+            }
         }
     }
 }

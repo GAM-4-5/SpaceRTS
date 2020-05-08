@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using SpaceRts;
 using static SpaceRts.Planet;
 using SpaceRts.Util;
+using SpaceRts.Noise;
 
 namespace Map
 {

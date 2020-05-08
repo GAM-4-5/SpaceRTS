@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Map;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceRts.Util;
 
 namespace SpaceRts.Map
 {
@@ -63,6 +65,9 @@ namespace SpaceRts.Map
         {
         }
 
+        private Vector3[] calculatedCorners = new Vector3[7];
+        private Vector3 drawCenter;
+        private HexagonalBounding bounding;
         NoiseGenerator noiseGenerator;
         /// <summary>
         /// Generates the mesh for cell.
@@ -89,13 +94,14 @@ namespace SpaceRts.Map
             float _chunkDrawX = chunkX * chunkWidth * innerRadius * 2;
             float _chunkDrawY = chunkY * chunkHeight * outerRadius * 3 / 2;
 
-
             float _cellDrawCenterX = _chunkDrawX + (cellX + cellY * 0.5f - cellY / 2) * (innerRadius * 2f);
             float _cellDrawCenterY = _chunkDrawY + cellY * (outerRadius * 1.5f);
 
             int _cellGlobalIndex = (cellY + chunkY * chunkHeight) * chunkWidth * mapWidth + cellX + chunkX * chunkWidth;
             float _cellHeightValue = noiseGenerator.GenerateAtPosition(_cellGlobalIndex);
-            float _cellHeightScaled = _cellHeightValue* HEIGHT_SCALE;
+            float _cellHeightScaled = _cellHeightValue * HEIGHT_SCALE;
+
+            drawCenter = new Vector3(_chunkDrawX, _chunkDrawY, _cellHeightScaled);
 
             Color _cellColor = colorAtHeight(_cellHeightScaled);
 
@@ -112,6 +118,8 @@ namespace SpaceRts.Map
             {
                 _cellCorners[_adjacentDirection] = _cellDrawCenter + corners[_adjacentDirection] * HEIGHT_CHANGE_INSET_SCALE;
                 _cellCorners[_adjacentDirection + 1] = _cellDrawCenter + corners[_adjacentDirection + 1] * HEIGHT_CHANGE_INSET_SCALE;
+
+                calculatedCorners[_adjacentDirection] = _cellCorners[_adjacentDirection];
 
                 int _adjacentCellXOffset = cellY % 2 == 0 ? adjacentsEven[_adjacentDirection].Item1 : adjacentsOdd[_adjacentDirection].Item1;
                 int _adjacentCellYOffset = cellY % 2 == 0 ? adjacentsEven[_adjacentDirection].Item2 : adjacentsOdd[_adjacentDirection].Item2;
@@ -220,7 +228,7 @@ namespace SpaceRts.Map
                             colors.Add(Color.Black);
                         }
                     }
-                    else if((Math.Abs(_cellToAdjacentCellCorner1PositionDelta.Z) > HEIGHT_SCALE * 0.1f) || (_adjacentCellsExist[(_adjacentDirection + 1) % 6] && Math.Abs(_cellHeightScaled - _adjacentCellsDrawEdges[(_adjacentDirection + 1) % 6 * 2].Z) > HEIGHT_SCALE * 0.1f))
+                    else if ((Math.Abs(_cellToAdjacentCellCorner1PositionDelta.Z) > HEIGHT_SCALE * 0.1f) || (_adjacentCellsExist[(_adjacentDirection + 1) % 6] && Math.Abs(_cellHeightScaled - _adjacentCellsDrawEdges[(_adjacentDirection + 1) % 6 * 2].Z) > HEIGHT_SCALE * 0.1f))
                     {
                         //int color2 = (int)(MathHelper.Clamp(_adjacentCellHeightValue, 0.1f, 0.9f) * 255);
 
@@ -232,12 +240,12 @@ namespace SpaceRts.Map
                         for (int _terrace = 0; _terrace < HEIGHT_CHANGE_NUMBER_OF_TERRACES + 1; _terrace++)
                         {
                             Vector3 _bottomCorner1, _bottomCorner2, _topCorner1, _topCorner2;
-                            if(_cellCorner1.Z > _adjacentCellCorner1.Z)
+                            if (_cellCorner1.Z > _adjacentCellCorner1.Z)
                             {
                                 _bottomCorner1 = _cellCorner1;
                                 _bottomCorner2 = _cellCorner2;
                                 _topCorner1 = _adjacentCellCorner1;
-                                _topCorner2 = _adjacentCellCorner2; 
+                                _topCorner2 = _adjacentCellCorner2;
                             }
                             else
                             {
@@ -317,7 +325,7 @@ namespace SpaceRts.Map
                                 }
                                 else if (_cellCorner2.Z > _adjacentCellCorner2.Z && _cellCorner2.Z > _adjacentCellsDrawEdges[(_adjacentDirection + 1) % 6 * 2].Z)
                                 {
-                                    _terraceTopCorner = _cellCorner2; 
+                                    _terraceTopCorner = _cellCorner2;
                                     _terraceBottomCorner1 = _adjacentCellCorner2;
                                     _terraceBottomCorner2 = _adjacentCellsDrawEdges[(_adjacentDirection + 1) % 6 * 2];
                                 }
@@ -345,8 +353,8 @@ namespace SpaceRts.Map
                                     Vector3 _terraceTopEdge1 = Vector3.Lerp(_terraceTopCorner, _terraceBottomCorner1, _terrace * HEIGHT_CHANGE_TERRACE_SCALE);
                                     Vector3 _terraceTopEdge2 = Vector3.Lerp(_terraceTopCorner, _terraceBottomCorner2, _terrace * HEIGHT_CHANGE_TERRACE_SCALE);
 
-                                    Vector3 _terraceBottomEdge1= Vector3.Lerp(_terraceTopCorner, _terraceBottomCorner1 ,  HEIGHT_CHANGE_TERRACE_SCALE * (_terrace + 1));
-                                    Vector3 _terraceBottomEdge2 = Vector3.Lerp(_terraceTopCorner,  _terraceBottomCorner2, HEIGHT_CHANGE_TERRACE_SCALE * (_terrace + 1));
+                                    Vector3 _terraceBottomEdge1 = Vector3.Lerp(_terraceTopCorner, _terraceBottomCorner1, HEIGHT_CHANGE_TERRACE_SCALE * (_terrace + 1));
+                                    Vector3 _terraceBottomEdge2 = Vector3.Lerp(_terraceTopCorner, _terraceBottomCorner2, HEIGHT_CHANGE_TERRACE_SCALE * (_terrace + 1));
 
                                     Vector3 _terraceMiddleEdge1 = Vector3.Lerp(new Vector3(_terraceBottomEdge1.X, _terraceBottomEdge1.Y, _terraceTopEdge1.Z), _terraceTopEdge1, HEIGHT_CHANGE_SLOPE_INSET);
                                     Vector3 _terraceMiddleEdge2 = Vector3.Lerp(new Vector3(_terraceBottomEdge2.X, _terraceBottomEdge2.Y, _terraceTopEdge2.Z), _terraceTopEdge2, HEIGHT_CHANGE_SLOPE_INSET);
@@ -354,7 +362,7 @@ namespace SpaceRts.Map
                                     //Vector3 _terraceMiddleEdge1 = Vector3.Lerp();
 
                                     Color _cellColorx = Color.Gray;
-                                    if (_terrace == 1 )
+                                    if (_terrace == 1)
                                         _cellColorx = Color.Pink;
 
                                     if (_terrace == 0)
@@ -589,13 +597,36 @@ namespace SpaceRts.Map
             {
                 indicies.Add(i);
             }
-
+            bounding = new HexagonalBounding(calculatedCorners);
             return (positions, texturePositions, colors, indicies);
         }
 
         Color colorAtHeight(float height)
         {
             return Color.Lerp(Color.LightBlue, Color.Red, height / 30);
+        }
+
+        public float? Intersects(Ray ray)
+        {
+            return bounding.Intersects(ray);
+        }
+
+        public void DrawOnTop(Model model, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
+        {
+            foreach (var mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.PreferPerPixelLighting = true;
+
+                    effect.World = Matrix.CreateTranslation(calculatedCorners[0]);
+                    effect.View = camera.ViewMatrix;
+                    effect.Projection = camera.ProjectionMatrix;
+                }
+
+                mesh.Draw();
+            }
         }
     }
 }

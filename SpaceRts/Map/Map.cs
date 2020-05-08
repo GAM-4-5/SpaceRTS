@@ -28,6 +28,38 @@ namespace SpaceRts.Map
             }
         }
 
+        public void Update()
+        {
+
+        }
+
+        public (Chunk, Cell) Intersect(Ray ray)
+        {
+            Chunk _chunk = null;
+
+            float min = float.PositiveInfinity;
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    float? m = Chunks[y, x].Intersect(ray);
+                    if (m != null)
+                    {
+                        min = MathHelper.Min(min, (float)m);
+                        _chunk = Chunks[y, x];
+                    }
+                }
+            }
+
+            if(_chunk != null)
+            {
+                return (_chunk, _chunk.Intersects(ray));
+            }
+
+            return (null, null);
+        }
+
         public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Camera camera)
         {
             // Chunks[0, 0].Draw(spriteBatch, graphics, camera);
