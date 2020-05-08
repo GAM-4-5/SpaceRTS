@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/Textures/Rock.jpg</SourceFile>
-  <SourceTime>2020-04-21T14:11:41.4042839+02:00</SourceTime>
+  <SourceTime>2020-05-07T21:29:32.8172327+02:00</SourceTime>
   <DestFile>C:/Users/josip/OneDrive/Radna površina/SpaceRTS/SpaceRtsClient/Content/bin/DesktopGL/Content/Textures/Rock.xnb</DestFile>
-  <DestTime>2020-04-21T14:12:06.2944041+02:00</DestTime>
+  <DestTime>2020-05-07T22:42:18.14638+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

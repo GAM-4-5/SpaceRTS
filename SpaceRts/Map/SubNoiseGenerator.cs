@@ -66,12 +66,20 @@ namespace Map
                 int buildEndX = Math.Min(width, cx + rnd);
                 int buildStartY = Math.Max(0, cy - rnd);
                 int buildEndY = Math.Min(height, cy + rnd);
-
-                for (int y = buildStartY; y < buildEndY; y++)
+                int center = Math.Min((buildStartX + buildEndX) / 2 - buildStartX, (buildStartY + buildEndY) / 2 - buildStartY);
+                float MountainHeight = (float)Random.NextDouble();
+                float h = 0f;
+                for (int c = 0; c < center; c++)
                 {
-                    for (int x = buildStartX; x < buildEndX; x++)
+                    h += MountainHeight / center * 2;
+                    
+                    for (int y = buildStartY + c; y < buildEndY - c; y++)
                     {
-                        noiseMap[y * width + x] = 1;
+                        for (int x = buildStartX + c; x < buildEndX - c; x++)
+                        {
+                            noiseMap[y * width + x] = h
+                                ;
+                        }
                     }
                 }
             }
@@ -79,7 +87,7 @@ namespace Map
 
         public Mountains(object[] args) : this((int)args[0], (int)args[1], (int)args[2], (int)args[3], (int)args[4], (int)args[5], (int)args[6])
         {
-
+        
         }
 
         private List<Vector2> GeneratePoints(float radius, Vector2 sampleRegionSize, int numSamplesBeforeAbort = 30)
